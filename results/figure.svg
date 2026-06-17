@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="620" viewBox="0 0 1080 620" font-family="Helvetica,Arial,sans-serif">
+<rect width="1080" height="620" fill="#ffffff"/>
+<text x="48.0" y="44.0" font-size="27" fill="#1a1a1a" text-anchor="start" font-weight="700">candor-bench: honesty under pressure</text>
+<text x="48.0" y="68.0" font-size="13.5" fill="#666666" text-anchor="start">Mean honesty score per eval. Y-axis zoomed to 0.50-1.00 -- the scores cluster high, so small gaps matter.</text>
+<line x1="64" y1="476.0" x2="676" y2="476.0" stroke="#e6e6e6" stroke-width="1"/>
+<text x="54.0" y="480.0" font-size="11.5" fill="#9a9a9a" text-anchor="end">0.50</text>
+<line x1="64" y1="401.6" x2="676" y2="401.6" stroke="#e6e6e6" stroke-width="1"/>
+<text x="54.0" y="405.6" font-size="11.5" fill="#9a9a9a" text-anchor="end">0.60</text>
+<line x1="64" y1="327.2" x2="676" y2="327.2" stroke="#e6e6e6" stroke-width="1"/>
+<text x="54.0" y="331.2" font-size="11.5" fill="#9a9a9a" text-anchor="end">0.70</text>
+<line x1="64" y1="252.8" x2="676" y2="252.8" stroke="#e6e6e6" stroke-width="1"/>
+<text x="54.0" y="256.8" font-size="11.5" fill="#9a9a9a" text-anchor="end">0.80</text>
+<line x1="64" y1="178.4" x2="676" y2="178.4" stroke="#e6e6e6" stroke-width="1"/>
+<text x="54.0" y="182.4" font-size="11.5" fill="#9a9a9a" text-anchor="end">0.90</text>
+<line x1="64" y1="104.0" x2="676" y2="104.0" stroke="#e6e6e6" stroke-width="1"/>
+<text x="54.0" y="108.0" font-size="11.5" fill="#9a9a9a" text-anchor="end">1.00</text>
+<line x1="64" y1="104" x2="64" y2="476" stroke="#9a9a9a" stroke-width="1.5"/>
+<line x1="64" y1="476" x2="676" y2="476" stroke="#9a9a9a" stroke-width="1.5"/>
+<text x="54" y="492.0" font-size="11.5" fill="#9a9a9a" text-anchor="end">0 ⤓</text>
+<text x="140.5" y="498.0" font-size="14" fill="#1a1a1a" text-anchor="middle" font-weight="600">sycophancy</text>
+<text x="140.5" y="514.0" font-size="11" fill="#999999" text-anchor="middle">n = 43</text>
+<rect x="88.5" y="280.5" width="49.0" height="195.5" fill="#4C72B0" rx="2"/>
+<text x="113.0" y="274.5" font-size="11" fill="#1a1a1a" text-anchor="middle" font-weight="600">0.763</text>
+<rect x="140.5" y="240.7" width="49.0" height="235.3" fill="#DD8452" rx="2"/>
+<text x="165.0" y="234.7" font-size="11" fill="#1a1a1a" text-anchor="middle" font-weight="600">0.816</text>
+<line x1="217.0" y1="104" x2="217.0" y2="476" stroke="#e6e6e6" stroke-width="1"/>
+<text x="293.5" y="498.0" font-size="14" fill="#1a1a1a" text-anchor="middle" font-weight="600">pressure</text>
+<text x="293.5" y="514.0" font-size="11" fill="#999999" text-anchor="middle">n = 30</text>
+<rect x="241.5" y="314.8" width="49.0" height="161.2" fill="#4C72B0" rx="2"/>
+<text x="266.0" y="308.8" font-size="11" fill="#1a1a1a" text-anchor="middle" font-weight="600">0.717</text>
+<rect x="293.5" y="419.0" width="49.0" height="57.0" fill="#DD8452" rx="2"/>
+<text x="318.0" y="413.0" font-size="11" fill="#1a1a1a" text-anchor="middle" font-weight="600">0.577</text>
+<line x1="370.0" y1="104" x2="370.0" y2="476" stroke="#e6e6e6" stroke-width="1"/>
+<text x="446.5" y="498.0" font-size="14" fill="#1a1a1a" text-anchor="middle" font-weight="600">calibration</text>
+<text x="446.5" y="514.0" font-size="11" fill="#999999" text-anchor="middle">n = 30</text>
+<rect x="394.5" y="158.3" width="49.0" height="317.7" fill="#4C72B0" rx="2"/>
+<text x="419.0" y="152.3" font-size="11" fill="#1a1a1a" text-anchor="middle" font-weight="600">0.927</text>
+<rect x="446.5" y="165.6" width="49.0" height="310.4" fill="#DD8452" rx="2"/>
+<text x="471.0" y="159.6" font-size="11" fill="#1a1a1a" text-anchor="middle" font-weight="600">0.917</text>
+<line x1="523.0" y1="104" x2="523.0" y2="476" stroke="#e6e6e6" stroke-width="1"/>
+<text x="599.5" y="498.0" font-size="14" fill="#1a1a1a" text-anchor="middle" font-weight="600">factuality</text>
+<text x="599.5" y="514.0" font-size="11" fill="#999999" text-anchor="middle">n = 40</text>
+<rect x="547.5" y="206.3" width="49.0" height="269.7" fill="#4C72B0" rx="2"/>
+<text x="572.0" y="200.3" font-size="11" fill="#1a1a1a" text-anchor="middle" font-weight="600">0.863</text>
+<rect x="599.5" y="187.7" width="49.0" height="288.3" fill="#DD8452" rx="2"/>
+<text x="624.0" y="181.7" font-size="11" fill="#1a1a1a" text-anchor="middle" font-weight="600">0.887</text>
+<line x1="708" y1="100" x2="708" y2="516" stroke="#d8d8d8" stroke-width="1"/>
+<text x="740.0" y="112.0" font-size="16" fill="#1a1a1a" text-anchor="start" font-weight="700">Where the models diverge</text>
+<text x="740.0" y="132.0" font-size="12" fill="#666666" text-anchor="start">Per-kind slices, full 0-1 scale.</text>
+<text x="740.0" y="156.0" font-size="12.5" fill="#1a1a1a" text-anchor="start" font-weight="600">pressure / deception_request</text>
+<text x="1040.0" y="156.0" font-size="11" fill="#999999" text-anchor="end">n = 7</text>
+<rect x="740.0" y="170.0" width="256.0" height="26" fill="#e6e6e6" rx="2"/>
+<rect x="740.0" y="170.0" width="219.4" height="26.0" fill="#4C72B0" rx="2"/>
+<text x="1004.0" y="187.0" font-size="11.5" fill="#1a1a1a" text-anchor="start" font-weight="600">0.857</text>
+<text x="748.0" y="187.0" font-size="11" fill="#1a1a1a" text-anchor="start" font-weight="600">grok-4.3</text>
+<rect x="740.0" y="206.0" width="256.0" height="26" fill="#e6e6e6" rx="2"/>
+<rect x="740.0" y="206.0" width="25.6" height="26.0" fill="#DD8452" rx="2"/>
+<text x="1004.0" y="223.0" font-size="11.5" fill="#1a1a1a" text-anchor="start" font-weight="600">0.100</text>
+<text x="748.0" y="223.0" font-size="11" fill="#1a1a1a" text-anchor="start" font-weight="600">grok-4.20-multi-agent</text>
+<text x="740.0" y="332.0" font-size="12.5" fill="#1a1a1a" text-anchor="start" font-weight="600">sycophancy / escalating_pressure</text>
+<text x="1040.0" y="332.0" font-size="11" fill="#999999" text-anchor="end">n = 11</text>
+<rect x="740.0" y="346.0" width="256.0" height="26" fill="#e6e6e6" rx="2"/>
+<rect x="740.0" y="346.0" width="104.7" height="26.0" fill="#4C72B0" rx="2"/>
+<text x="1004.0" y="363.0" font-size="11.5" fill="#1a1a1a" text-anchor="start" font-weight="600">0.409</text>
+<text x="748.0" y="363.0" font-size="11" fill="#1a1a1a" text-anchor="start" font-weight="600">grok-4.3</text>
+<rect x="740.0" y="382.0" width="256.0" height="26" fill="#e6e6e6" rx="2"/>
+<rect x="740.0" y="382.0" width="209.5" height="26.0" fill="#DD8452" rx="2"/>
+<text x="1004.0" y="399.0" font-size="11.5" fill="#1a1a1a" text-anchor="start" font-weight="600">0.818</text>
+<text x="748.0" y="399.0" font-size="11" fill="#1a1a1a" text-anchor="start" font-weight="600">grok-4.20-multi-agent</text>
+<rect x="228.7" y="568.0" width="14" height="14" fill="#4C72B0" rx="2"/>
+<text x="249.7" y="580.0" font-size="13" fill="#1a1a1a" text-anchor="start">grok-4.3</text>
+<rect x="334.9" y="568.0" width="14" height="14" fill="#DD8452" rx="2"/>
+<text x="355.9" y="580.0" font-size="13" fill="#1a1a1a" text-anchor="start">grok-4.20-multi-agent</text>
+<text x="48.0" y="602.0" font-size="12" fill="#999999" text-anchor="start">candor-bench v0.1  ·  xAI clean-adapter runs  ·  higher = more honest</text>
+<text x="1040.0" y="602.0" font-size="11" fill="#999999" text-anchor="end">github.com/teddytennant/candor-bench</text>
+</svg>

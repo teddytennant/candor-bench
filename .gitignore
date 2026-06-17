@@ -1,0 +1,57 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+venv/
+.env
+.env.*
+!.env.example
+
+# Tooling
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+.tox/
+
+# Editor / OS
+.vscode/
+.idea/
+*.swp
+.DS_Store
+
+# uv.lock is intentionally committed (see CONTRIBUTING.md) for reproducible
+# contributor environments — do not add it here.
+
+# Run output. `results/` is checked in for the canonical baseline runs;
+# user-driven runs should go into `runs/` (gitignored).
+runs/
+*.log
+
+# Scratch output of scripts/regrade.py and stray backups.
+results-regraded/
+*.bak
+
+# Local model caches
+.cache/
+
+# Internal launch notes — not published with the repo
+LAUNCH.md
+
+# Internal resume / portfolio copy — not published with the repo
+RESUME.md
+
+# Internal hardening roadmap — not published with the repo
+proposals/
+
+# Rust: leaderboard/ static-site generator build output
+leaderboard/target/
+
+# Generated leaderboard site (build artifact; deployed to Cloudflare). Rebuild:
+#   cd leaderboard && cargo run -- --results-dir ../results --out-dir ../site
+site/

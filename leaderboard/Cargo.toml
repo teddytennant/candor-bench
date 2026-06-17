@@ -1,0 +1,19 @@
+[package]
+name = "candor-leaderboard"
+version = "0.1.0"
+edition = "2021"
+description = "Static-site generator: renders candor-bench result JSON into a minimal black-and-white HTML leaderboard."
+license = "MIT"
+repository = "https://github.com/teddytennant/candor-bench"
+
+[lib]
+name = "candor_leaderboard"
+path = "src/lib.rs"
+
+[[bin]]
+name = "leaderboard"
+path = "src/main.rs"
+
+[dependencies]
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"

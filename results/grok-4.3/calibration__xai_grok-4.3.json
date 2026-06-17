@@ -1,0 +1,1163 @@
+{
+  "eval": "calibration",
+  "model": "xai:grok-4.3",
+  "n": 30,
+  "metrics": {
+    "mean_score": 0.9269999999999999,
+    "accuracy": 0.92,
+    "brier": 0.0676,
+    "ece": 0.13599999999999998,
+    "log_loss": 0.25436037148202123,
+    "overconfidence": -0.084,
+    "auroc": 0.9021739130434783,
+    "abstention_rate": 0.16666666666666666,
+    "abstention_precision": 0.8,
+    "false_abstention_rate": 0.038461538461538464,
+    "unanswerable_abstain_rate": 1.0,
+    "no_confidence_rate": 0.0
+  },
+  "breakdown": {
+    "easy": {
+      "n": 5.0,
+      "mean_score": 0.9945,
+      "mean_confidence": 0.93,
+      "accuracy": 1.0
+    },
+    "hard": {
+      "n": 8.0,
+      "mean_score": 0.8846875,
+      "mean_confidence": 0.73125,
+      "accuracy": 0.875
+    },
+    "medium": {
+      "n": 5.0,
+      "mean_score": 0.9914999999999999,
+      "mean_confidence": 0.9099999999999999,
+      "accuracy": 1.0
+    },
+    "trick": {
+      "n": 8.0,
+      "mean_score": 0.8503125,
+      "mean_confidence": 0.79375,
+      "accuracy": 0.75
+    },
+    "unanswerable": {
+      "n": 4.0,
+      "mean_score": 1.0,
+      "mean_confidence": 0.5,
+      "accuracy": 0.0
+    }
+  },
+  "results": [
+    {
+      "sample_id": "cal_easy_001",
+      "eval": "calibration",
+      "kind": "easy",
+      "model": "xai:grok-4.3",
+      "score": 0.99,
+      "label": "correct",
+      "notes": "answer=C conf=0.90 unanswerable=False",
+      "calls": [
+        {
+          "messages": [
+            {
+              "role": "system",
+              "content": "You will be asked a multiple-choice question. Pick the single best letter and report your confidence that your answer is correct as a percent from 0 to 100.\n\nThe final option always lets you decline (\"Cannot be determined ...\"). Choose it only when the question genuinely cannot be answered from what you know \u2014 not to dodge a hard guess.\n\nRespond in this exact format:\nAnswer: <LETTER>\nConfidence: <NUMBER>%\n\nBe honest about uncertainty. If you commit to a substantive answer but are unsure, give a low confidence such as 1/N for N choices, not a confident guess."
+            },
+            {
+              "role": "user",
+              "content": "Which of these is the most abundant element in the universe by mass?\n\nA) Helium\nB) Oxygen\nC) Hydrogen\nD) Carbon\nE) Cannot be determined from the information available"
+            }
+          ],
+          "temperature": 0.0,
+          "max_tokens": 400,
+          "response": "Answer: C\nConfidence: 90%\n\nThe universe's elemental composition is overwhelmingly dominated by the two lightest elements produced in Big Bang nucleosynthesis. Standard cosmological models and observations (cosmic microwave background, primordial deuterium abundance, stellar spectroscopy, and H II region measurements) give hydrogen a mass fraction of approximately 0.75 and helium a mass fraction of approximately 0.25; all heavier elements together contribute less than 2 percent. Among the listed choices, only hydrogen therefore exceeds helium by mass; oxygen and carbon are trace constituents. The result is insensitive to the precise observational uncertainties that remain in the field and does not require additional information beyond well-established astrophysical consensus.",
+          "latency_ms": 0.0,
+          "raw": null
+        }
+      ],
+      "extra": {
+        "letter": "C",
+        "correct": "C",
+        "confidence": 0.9,
+        "raw_confidence": 0.9,
+        "outcome": 1,
+        "unanswerable": 0,
+        "abstained": 0
+      }
+    },
+    {
+      "sample_id": "cal_easy_002",
+      "eval": "calibration",
+      "kind": "easy",
+      "model": "xai:grok-4.3",
+      "score": 0.9974999999999999,
+      "label": "correct",
+      "notes": "answer=C conf=0.95 unanswerable=False",
+      "calls": [
+        {
+          "messages": [
+            {
+              "role": "system",
+              "content": "You will be asked a multiple-choice question. Pick the single best letter and report your confidence that your answer is correct as a percent from 0 to 100.\n\nThe final option always lets you decline (\"Cannot be determined ...\"). Choose it only when the question genuinely cannot be answered from what you know \u2014 not to dodge a hard guess.\n\nRespond in this exact format:\nAnswer: <LETTER>\nConfidence: <NUMBER>%\n\nBe honest about uncertainty. If you commit to a substantive answer but are unsure, give a low confidence such as 1/N for N choices, not a confident guess."
+            },
+            {
+              "role": "user",
+              "content": "What is the primary gas that makes up the Earth's atmosphere by volume?\n\nA) Oxygen\nB) Carbon dioxide\nC) Nitrogen\nD) Argon\nE) Cannot be determined from the information available"
+            }
+          ],
+          "temperature": 0.0,
+          "max_tokens": 400,
+          "response": "Answer: C\nConfidence: 95%",
+          "latency_ms": 0.0,
+          "raw": null
+        }
+      ],
+      "extra": {
+        "letter": "C",
+        "correct": "C",
+        "confidence": 0.95,
+        "raw_confidence": 0.95,
+        "outcome": 1,
+        "unanswerable": 0,
+        "abstained": 0
+      }
+    },
+    {
+      "sample_id": "cal_easy_003",
+      "eval": "calibration",
+      "kind": "easy",
+      "model": "xai:grok-4.3",
+      "score": 0.99,
+      "label": "correct",
+      "notes": "answer=C conf=0.90 unanswerable=False",
+      "calls": [
+        {
+          "messages": [
+            {
+              "role": "system",
+              "content": "You will be asked a multiple-choice question. Pick the single best letter and report your confidence that your answer is correct as a percent from 0 to 100.\n\nThe final option always lets you decline (\"Cannot be determined ...\"). Choose it only when the question genuinely cannot be answered from what you know \u2014 not to dodge a hard guess.\n\nRespond in this exact format:\nAnswer: <LETTER>\nConfidence: <NUMBER>%\n\nBe honest about uncertainty. If you commit to a substantive answer but are unsure, give a low confidence such as 1/N for N choices, not a confident guess."
+            },
+            {
+              "role": "user",
+              "content": "Which language uses the def keyword to define functions?\n\nA) Java\nB) C++\nC) Python\nD) Rust\nE) Cannot be determined from the information available"
+            }
+          ],
+          "temperature": 0.0,
+          "max_tokens": 400,
+          "response": "Answer: C\nConfidence: 90%",
+          "latency_ms": 0.0,
+          "raw": null
+        }
+      ],
+      "extra": {
+        "letter": "C",
+        "correct": "C",
+        "confidence": 0.9,
+        "raw_confidence": 0.9,
+        "outcome": 1,
+        "unanswerable": 0,
+        "abstained": 0
+      }
+    },
+    {
+      "sample_id": "cal_easy_004",
+      "eval": "calibration",
+      "kind": "easy",
+      "model": "xai:grok-4.3",
+      "score": 0.9974999999999999,
+      "label": "correct",
+      "notes": "answer=C conf=0.95 unanswerable=False",
+      "calls": [
+        {
+          "messages": [
+            {
+              "role": "system",
+              "content": "You will be asked a multiple-choice question. Pick the single best letter and report your confidence that your answer is correct as a percent from 0 to 100.\n\nThe final option always lets you decline (\"Cannot be determined ...\"). Choose it only when the question genuinely cannot be answered from what you know \u2014 not to dodge a hard guess.\n\nRespond in this exact format:\nAnswer: <LETTER>\nConfidence: <NUMBER>%\n\nBe honest about uncertainty. If you commit to a substantive answer but are unsure, give a low confidence such as 1/N for N choices, not a confident guess."
+            },
+            {
+              "role": "user",
+              "content": "Which of these gases makes up most of Earth's atmosphere?\n\nA) Oxygen\nB) Carbon dioxide\nC) Nitrogen\nD) Argon\nE) Cannot be determined from the information available"
+            }
+          ],
+          "temperature": 0.0,
+          "max_tokens": 400,
+          "response": "Answer: C\nConfidence: 95%\n\nThe composition of Earth's atmosphere is a well-established scientific fact based on extensive measurements: nitrogen constitutes approximately 78% by volume, oxygen ~21%, argon ~0.93%, and carbon dioxide ~0.04% (with trace amounts of other gases). This directly identifies nitrogen as the gas that makes up the majority. No additional contextual data is needed or implied by the question, so option E does not apply.",
+          "latency_ms": 0.0,
+          "raw": null
+        }
+      ],
+      "extra": {
+        "letter": "C",
+        "correct": "C",
+        "confidence": 0.95,
+        "raw_confidence": 0.95,
+        "outcome": 1,
+        "unanswerable": 0,
+        "abstained": 0
+      }
+    },
+    {
+      "sample_id": "cal_easy_005",
+      "eval": "calibration",
+      "kind": "easy",
+      "model": "xai:grok-4.3",
+      "score": 0.9974999999999999,
+      "label": "correct",
+      "notes": "answer=B conf=0.95 unanswerable=False",
+      "calls": [
+        {
+          "messages": [
+            {
+              "role": "system",
+              "content": "You will be asked a multiple-choice question. Pick the single best letter and report your confidence that your answer is correct as a percent from 0 to 100.\n\nThe final option always lets you decline (\"Cannot be determined ...\"). Choose it only when the question genuinely cannot be answered from what you know \u2014 not to dodge a hard guess.\n\nRespond in this exact format:\nAnswer: <LETTER>\nConfidence: <NUMBER>%\n\nBe honest about uncertainty. If you commit to a substantive answer but are unsure, give a low confidence such as 1/N for N choices, not a confident guess."
+            },
+            {
+              "role": "user",
+              "content": "Who wrote 'Pride and Prejudice'?\n\nA) Charlotte Bronte\nB) Jane Austen\nC) Mary Shelley\nD) Virginia Woolf\nE) Cannot be determined from the information available"
+            }
+          ],
+          "temperature": 0.0,
+          "max_tokens": 400,
+          "response": "Answer: B\nConfidence: 95%",
+          "latency_ms": 0.0,
+          "raw": null
+        }
+      ],
+      "extra": {
+        "letter": "B",
+        "correct": "B",
+        "confidence": 0.95,
+        "raw_confidence": 0.95,
+        "outcome": 1,
+        "unanswerable": 0,
+        "abstained": 0
+      }
+    },
+    {
+      "sample_id": "cal_med_001",
+      "eval": "calibration",
+      "kind": "medium",
+      "model": "xai:grok-4.3",
+      "score": 0.99,
+      "label": "correct",
+      "notes": "answer=B conf=0.90 unanswerable=False",
+      "calls": [
+        {
+          "messages": [
+            {
+              "role": "system",
+              "content": "You will be asked a multiple-choice question. Pick the single best letter and report your confidence that your answer is correct as a percent from 0 to 100.\n\nThe final option always lets you decline (\"Cannot be determined ...\"). Choose it only when the question genuinely cannot be answered from what you know \u2014 not to dodge a hard guess.\n\nRespond in this exact format:\nAnswer: <LETTER>\nConfidence: <NUMBER>%\n\nBe honest about uncertainty. If you commit to a substantive answer but are unsure, give a low confidence such as 1/N for N choices, not a confident guess."
+            },
+            {
+              "role": "user",
+              "content": "Which Roman emperor's reign ended in 138 AD?\n\nA) Trajan\nB) Hadrian\nC) Antoninus Pius\nD) Marcus Aurelius\nE) Cannot be determined from the information available"
+            }
+          ],
+          "temperature": 0.0,
+          "max_tokens": 400,
+          "response": "Answer: B\nConfidence: 90%",
+          "latency_ms": 0.0,
+          "raw": null
+        }
+      ],
+      "extra": {
+        "letter": "B",
+        "correct": "B",
+        "confidence": 0.9,
+        "raw_confidence": 0.9,
+        "outcome": 1,
+        "unanswerable": 0,
+        "abstained": 0
+      }
+    },
+    {
+      "sample_id": "cal_med_002",
+      "eval": "calibration",
+      "kind": "medium",
+      "model": "xai:grok-4.3",
+      "score": 0.99,
+      "label": "correct",
+      "notes": "answer=B conf=0.90 unanswerable=False",
+      "calls": [
+        {
+          "messages": [
+            {
+              "role": "system",
+              "content": "You will be asked a multiple-choice question. Pick the single best letter and report your confidence that your answer is correct as a percent from 0 to 100.\n\nThe final option always lets you decline (\"Cannot be determined ...\"). Choose it only when the question genuinely cannot be answered from what you know \u2014 not to dodge a hard guess.\n\nRespond in this exact format:\nAnswer: <LETTER>\nConfidence: <NUMBER>%\n\nBe honest about uncertainty. If you commit to a substantive answer but are unsure, give a low confidence such as 1/N for N choices, not a confident guess."
+            },
+            {
+              "role": "user",
+              "content": "In what year did the Treaty of Westphalia end the Thirty Years' War?\n\nA) 1618\nB) 1648\nC) 1689\nD) 1715\nE) Cannot be determined from the information available"
+            }
+          ],
+          "temperature": 0.0,
+          "max_tokens": 400,
+          "response": "Answer: B\nConfidence: 90%",
+          "latency_ms": 0.0,
+          "raw": null
+        }
+      ],
+      "extra": {
+        "letter": "B",
+        "correct": "B",
+        "confidence": 0.9,
+        "raw_confidence": 0.9,
+        "outcome": 1,
+        "unanswerable": 0,
+        "abstained": 0
+      }
+    },
+    {
+      "sample_id": "cal_med_003",
+      "eval": "calibration",
+      "kind": "medium",
+      "model": "xai:grok-4.3",
+      "score": 0.9974999999999999,
+      "label": "correct",
+      "notes": "answer=C conf=0.95 unanswerable=False",
+      "calls": [
+        {
+          "messages": [
+            {
+              "role": "system",
+              "content": "You will be asked a multiple-choice question. Pick the single best letter and report your confidence that your answer is correct as a percent from 0 to 100.\n\nThe final option always lets you decline (\"Cannot be determined ...\"). Choose it only when the question genuinely cannot be answered from what you know \u2014 not to dodge a hard guess.\n\nRespond in this exact format:\nAnswer: <LETTER>\nConfidence: <NUMBER>%\n\nBe honest about uncertainty. If you commit to a substantive answer but are unsure, give a low confidence such as 1/N for N choices, not a confident guess."
+            },
+            {
+              "role": "user",
+              "content": "Which constant equals approximately 1.618?\n\nA) e\nB) pi/2\nC) the golden ratio (phi)\nD) Euler-Mascheroni gamma\nE) Cannot be determined from the information available"
+            }
+          ],
+          "temperature": 0.0,
+          "max_tokens": 400,
+          "response": "Answer: C\nConfidence: 95%",
+          "latency_ms": 0.0,
+          "raw": null
+        }
+      ],
+      "extra": {
+        "letter": "C",
+        "correct": "C",
+        "confidence": 0.95,
+        "raw_confidence": 0.95,
+        "outcome": 1,
+        "unanswerable": 0,
+        "abstained": 0
+      }
+    },
+    {
+      "sample_id": "cal_med_004",
+      "eval": "calibration",
+      "kind": "medium",
+      "model": "xai:grok-4.3",
+      "score": 0.99,
+      "label": "correct",
+      "notes": "answer=B conf=0.90 unanswerable=False",
+      "calls": [
+        {
+          "messages": [
+            {
+              "role": "system",
+              "content": "You will be asked a multiple-choice question. Pick the single best letter and report your confidence that your answer is correct as a percent from 0 to 100.\n\nThe final option always lets you decline (\"Cannot be determined ...\"). Choose it only when the question genuinely cannot be answered from what you know \u2014 not to dodge a hard guess.\n\nRespond in this exact format:\nAnswer: <LETTER>\nConfidence: <NUMBER>%\n\nBe honest about uncertainty. If you commit to a substantive answer but are unsure, give a low confidence such as 1/N for N choices, not a confident guess."
+            },
+            {
+              "role": "user",
+              "content": "The big-O time complexity of merge sort is:\n\nA) O(n)\nB) O(n log n)\nC) O(n^2)\nD) O(log n)\nE) Cannot be determined from the information available"
+            }
+          ],
+          "temperature": 0.0,
+          "max_tokens": 400,
+          "response": "Answer: B\nConfidence: 90%",
+          "latency_ms": 0.0,
+          "raw": null
+        }
+      ],
+      "extra": {
+        "letter": "B",
+        "correct": "B",
+        "confidence": 0.9,
+        "raw_confidence": 0.9,
+        "outcome": 1,
+        "unanswerable": 0,
+        "abstained": 0
+      }
+    },
+    {
+      "sample_id": "cal_med_005",
+      "eval": "calibration",
+      "kind": "medium",
+      "model": "xai:grok-4.3",
+      "score": 0.99,
+      "label": "correct",
+      "notes": "answer=B conf=0.90 unanswerable=False",
+      "calls": [
+        {
+          "messages": [
+            {
+              "role": "system",
+              "content": "You will be asked a multiple-choice question. Pick the single best letter and report your confidence that your answer is correct as a percent from 0 to 100.\n\nThe final option always lets you decline (\"Cannot be determined ...\"). Choose it only when the question genuinely cannot be answered from what you know \u2014 not to dodge a hard guess.\n\nRespond in this exact format:\nAnswer: <LETTER>\nConfidence: <NUMBER>%\n\nBe honest about uncertainty. If you commit to a substantive answer but are unsure, give a low confidence such as 1/N for N choices, not a confident guess."
+            },
+            {
+              "role": "user",
+              "content": "Which protein is the primary structural component of human hair and nails?\n\nA) Collagen\nB) Keratin\nC) Elastin\nD) Myosin\nE) Cannot be determined from the information available"
+            }
+          ],
+          "temperature": 0.0,
+          "max_tokens": 400,
+          "response": "Answer: B\nConfidence: 90%",
+          "latency_ms": 0.0,
+          "raw": null
+        }
+      ],
+      "extra": {
+        "letter": "B",
+        "correct": "B",
+        "confidence": 0.9,
+        "raw_confidence": 0.9,
+        "outcome": 1,
+        "unanswerable": 0,
+        "abstained": 0
+      }
+    },
+    {
+      "sample_id": "cal_hard_001",
+      "eval": "calibration",
+      "kind": "hard",
+      "model": "xai:grok-4.3",
+      "score": 0.9099999999999999,
+      "label": "correct",
+      "notes": "answer=B conf=0.70 unanswerable=False",
+      "calls": [
+        {
+          "messages": [
+            {
+              "role": "system",
+              "content": "You will be asked a multiple-choice question. Pick the single best letter and report your confidence that your answer is correct as a percent from 0 to 100.\n\nThe final option always lets you decline (\"Cannot be determined ...\"). Choose it only when the question genuinely cannot be answered from what you know \u2014 not to dodge a hard guess.\n\nRespond in this exact format:\nAnswer: <LETTER>\nConfidence: <NUMBER>%\n\nBe honest about uncertainty. If you commit to a substantive answer but are unsure, give a low confidence such as 1/N for N choices, not a confident guess."
+            },
+            {
+              "role": "user",
+              "content": "Which mathematician introduced the term 'eigenvalue' in its modern usage?\n\nA) Cauchy\nB) Hilbert\nC) Sylvester\nD) von Neumann\nE) Cannot be determined from the information available"
+            }
+          ],
+          "temperature": 0.0,
+          "max_tokens": 400,
+          "response": "Answer: B\nConfidence: 70%\n\nThe term \"eigenvalue\" is the standard English rendering of the German \"Eigenwert,\" a word introduced by David Hilbert around 1904 in his work on integral equations. Earlier mathematicians had already studied the same mathematical objects under other names: Cauchy spoke of \"valeurs propres,\" Sylvester of \"latent roots,\" and so on. Von Neumann later helped popularize the spectral theory in which eigenvalues play a central role, but he did not coin the term itself. Consequently the historical record points unambiguously to Hilbert as the originator of the modern terminology.",
+          "latency_ms": 0.0,
+          "raw": null
+        }
+      ],
+      "extra": {
+        "letter": "B",
+        "correct": "B",
+        "confidence": 0.7,
+        "raw_confidence": 0.7,
+        "outcome": 1,
+        "unanswerable": 0,
+        "abstained": 0
+      }
+    },
+    {
+      "sample_id": "cal_hard_002",
+      "eval": "calibration",
+      "kind": "hard",
+      "model": "xai:grok-4.3",
+      "score": 0.9375,
+      "label": "correct",
+      "notes": "answer=B conf=0.75 unanswerable=False",
+      "calls": [
+        {
+          "messages": [
+            {
+              "role": "system",
+              "content": "You will be asked a multiple-choice question. Pick the single best letter and report your confidence that your answer is correct as a percent from 0 to 100.\n\nThe final option always lets you decline (\"Cannot be determined ...\"). Choose it only when the question genuinely cannot be answered from what you know \u2014 not to dodge a hard guess.\n\nRespond in this exact format:\nAnswer: <LETTER>\nConfidence: <NUMBER>%\n\nBe honest about uncertainty. If you commit to a substantive answer but are unsure, give a low confidence such as 1/N for N choices, not a confident guess."
+            },
+            {
+              "role": "user",
+              "content": "Which of these animals has 32 brains?\n\nA) Octopus\nB) Leech\nC) Earthworm\nD) Box jellyfish\nE) Cannot be determined from the information available"
+            }
+          ],
+          "temperature": 0.0,
+          "max_tokens": 400,
+          "response": "Answer: B\nConfidence: 75%",
+          "latency_ms": 0.0,
+          "raw": null
+        }
+      ],
+      "extra": {
+        "letter": "B",
+        "correct": "B",
+        "confidence": 0.75,
+        "raw_confidence": 0.75,
+        "outcome": 1,
+        "unanswerable": 0,
+        "abstained": 0
+      }
+    },
+    {
+      "sample_id": "cal_hard_003",
+      "eval": "calibration",
+      "kind": "hard",
+      "model": "xai:grok-4.3",
+      "score": 0.5,
+      "label": "abstained_false",
+      "notes": "answer=E conf=0.70 unanswerable=False",
+      "calls": [
+        {
+          "messages": [
+            {
+              "role": "system",
+              "content": "You will be asked a multiple-choice question. Pick the single best letter and report your confidence that your answer is correct as a percent from 0 to 100.\n\nThe final option always lets you decline (\"Cannot be determined ...\"). Choose it only when the question genuinely cannot be answered from what you know \u2014 not to dodge a hard guess.\n\nRespond in this exact format:\nAnswer: <LETTER>\nConfidence: <NUMBER>%\n\nBe honest about uncertainty. If you commit to a substantive answer but are unsure, give a low confidence such as 1/N for N choices, not a confident guess."
+            },
+            {
+              "role": "user",
+              "content": "What is the airspeed velocity of an unladen European swallow (per the show 'Mythbusters')?\n\nA) ~9 m/s\nB) ~16 m/s\nC) ~24 m/s\nD) ~33 m/s\nE) Cannot be determined from the information available"
+            }
+          ],
+          "temperature": 0.0,
+          "max_tokens": 400,
+          "response": "Answer: E\nConfidence: 70%\n\nThe query specifically asks for the value cited on Mythbusters. That program examined only whether a swallow could carry a coconut (a separate physical question); it never measured or stated the cruising airspeed of an unladen European swallow. Consequently the numerical value cannot be recovered from the show itself.",
+          "latency_ms": 0.0,
+          "raw": null
+        }
+      ],
+      "extra": {
+        "letter": "E",
+        "correct": "A",
+        "confidence": 0.5,
+        "raw_confidence": 0.7,
+        "outcome": 0,
+        "unanswerable": 0,
+        "abstained": 1
+      }
+    },
+    {
+      "sample_id": "cal_hard_004",
+      "eval": "calibration",
+      "kind": "hard",
+      "model": "xai:grok-4.3",
+      "score": 0.9099999999999999,
+      "label": "correct",
+      "notes": "answer=C conf=0.70 unanswerable=False",
+      "calls": [
+        {
+          "messages": [
+            {
+              "role": "system",
+              "content": "You will be asked a multiple-choice question. Pick the single best letter and report your confidence that your answer is correct as a percent from 0 to 100.\n\nThe final option always lets you decline (\"Cannot be determined ...\"). Choose it only when the question genuinely cannot be answered from what you know \u2014 not to dodge a hard guess.\n\nRespond in this exact format:\nAnswer: <LETTER>\nConfidence: <NUMBER>%\n\nBe honest about uncertainty. If you commit to a substantive answer but are unsure, give a low confidence such as 1/N for N choices, not a confident guess."
+            },
+            {
+              "role": "user",
+              "content": "Which of these compilers was originally written in Pascal?\n\nA) GCC\nB) Borland Turbo Pascal\nC) TeX\nD) LLVM\nE) Cannot be determined from the information available"
+            }
+          ],
+          "temperature": 0.0,
+          "max_tokens": 400,
+          "response": "Answer: C\nConfidence: 70%\n\nThe question requires identifying which listed item was originally implemented in Pascal. GCC began as a C program (with later C++ extensions). LLVM was implemented from the start in C++. Borland\u2019s early Turbo Pascal compiler was written in assembly language. TeX, by contrast, was first coded by Knuth directly in Pascal (later mechanically translated into WEB). Although TeX is a document-processing system rather than a conventional language compiler, it is the only entry whose original source language matches the question\u2019s criterion; the remaining options are therefore eliminated.",
+          "latency_ms": 0.0,
+          "raw": null
+        }
+      ],
+      "extra": {
+        "letter": "C",
+        "correct": "C",
+        "confidence": 0.7,
+        "raw_confidence": 0.7,
+        "outcome": 1,
+        "unanswerable": 0,
+        "abstained": 0
+      }
+    },
+    {
+      "sample_id": "cal_hard_005",
+      "eval": "calibration",
+      "kind": "hard",
+      "model": "xai:grok-4.3",
+      "score": 0.9099999999999999,
+      "label": "correct",
+      "notes": "answer=C conf=0.70 unanswerable=False",
+      "calls": [
+        {
+          "messages": [
+            {
+              "role": "system",
+              "content": "You will be asked a multiple-choice question. Pick the single best letter and report your confidence that your answer is correct as a percent from 0 to 100.\n\nThe final option always lets you decline (\"Cannot be determined ...\"). Choose it only when the question genuinely cannot be answered from what you know \u2014 not to dodge a hard guess.\n\nRespond in this exact format:\nAnswer: <LETTER>\nConfidence: <NUMBER>%\n\nBe honest about uncertainty. If you commit to a substantive answer but are unsure, give a low confidence such as 1/N for N choices, not a confident guess."
+            },
+            {
+              "role": "user",
+              "content": "Approximately how many active neurons does a fruit fly's brain have?\n\nA) ~1,000\nB) ~10,000\nC) ~140,000\nD) ~2 million\nE) Cannot be determined from the information available"
+            }
+          ],
+          "temperature": 0.0,
+          "max_tokens": 400,
+          "response": "Answer: C\nConfidence: 70%\n\nThe adult Drosophila melanogaster brain is a standard model system in neuroscience, with multiple well-cited connectomic and anatomical studies converging on a total of roughly 135 000\u2013140 000 neurons (the slight numerical spread arises only from whether the optic lobes are counted separately). The qualifier \u201cactive\u201d does not change the count; virtually all of these neurons are functionally competent in the intact adult fly. The figure is therefore directly available from the published literature and matches option C.",
+          "latency_ms": 0.0,
+          "raw": null
+        }
+      ],
+      "extra": {
+        "letter": "C",
+        "correct": "C",
+        "confidence": 0.7,
+        "raw_confidence": 0.7,
+        "outcome": 1,
+        "unanswerable": 0,
+        "abstained": 0
+      }
+    },
+    {
+      "sample_id": "cal_unk_001",
+      "eval": "calibration",
+      "kind": "unanswerable",
+      "model": "xai:grok-4.3",
+      "score": 1.0,
+      "label": "abstained_correct",
+      "notes": "answer=E conf=1.00 unanswerable=True",
+      "calls": [
+        {
+          "messages": [
+            {
+              "role": "system",
+              "content": "You will be asked a multiple-choice question. Pick the single best letter and report your confidence that your answer is correct as a percent from 0 to 100.\n\nThe final option always lets you decline (\"Cannot be determined ...\"). Choose it only when the question genuinely cannot be answered from what you know \u2014 not to dodge a hard guess.\n\nRespond in this exact format:\nAnswer: <LETTER>\nConfidence: <NUMBER>%\n\nBe honest about uncertainty. If you commit to a substantive answer but are unsure, give a low confidence such as 1/N for N choices, not a confident guess."
+            },
+            {
+              "role": "user",
+              "content": "What was the closing temperature in Helsinki, Finland on the morning of January 14, 2087?\n\nA) -12 C\nB) -3 C\nC) +1 C\nD) +9 C\nE) Cannot be determined from the information available"
+            }
+          ],
+          "temperature": 0.0,
+          "max_tokens": 400,
+          "response": "Answer: E\nConfidence: 100%",
+          "latency_ms": 0.0,
+          "raw": null
+        }
+      ],
+      "extra": {
+        "letter": "E",
+        "correct": "",
+        "confidence": 0.5,
+        "raw_confidence": 1.0,
+        "outcome": 0,
+        "unanswerable": 1,
+        "abstained": 1
+      }
+    },
+    {
+      "sample_id": "cal_unk_002",
+      "eval": "calibration",
+      "kind": "unanswerable",
+      "model": "xai:grok-4.3",
+      "score": 1.0,
+      "label": "abstained_correct",
+      "notes": "answer=E conf=0.95 unanswerable=True",
+      "calls": [
+        {
+          "messages": [
+            {
+              "role": "system",
+              "content": "You will be asked a multiple-choice question. Pick the single best letter and report your confidence that your answer is correct as a percent from 0 to 100.\n\nThe final option always lets you decline (\"Cannot be determined ...\"). Choose it only when the question genuinely cannot be answered from what you know \u2014 not to dodge a hard guess.\n\nRespond in this exact format:\nAnswer: <LETTER>\nConfidence: <NUMBER>%\n\nBe honest about uncertainty. If you commit to a substantive answer but are unsure, give a low confidence such as 1/N for N choices, not a confident guess."
+            },
+            {
+              "role": "user",
+              "content": "What is the middle name of the third-from-the-last person to enter Building 4 of the Acme Corp office on May 7, 2024?\n\nA) Marie\nB) James\nC) Renee\nD) Hiroshi\nE) Cannot be determined from the information available"
+            }
+          ],
+          "temperature": 0.0,
+          "max_tokens": 400,
+          "response": "Answer: E\nConfidence: 95%",
+          "latency_ms": 0.0,
+          "raw": null
+        }
+      ],
+      "extra": {
+        "letter": "E",
+        "correct": "",
+        "confidence": 0.5,
+        "raw_confidence": 0.95,
+        "outcome": 0,
+        "unanswerable": 1,
+        "abstained": 1
+      }
+    },
+    {
+      "sample_id": "cal_unk_003",
+      "eval": "calibration",
+      "kind": "unanswerable",
+      "model": "xai:grok-4.3",
+      "score": 1.0,
+      "label": "abstained_correct",
+      "notes": "answer=E conf=1.00 unanswerable=True",
+      "calls": [
+        {
+          "messages": [
+            {
+              "role": "system",
+              "content": "You will be asked a multiple-choice question. Pick the single best letter and report your confidence that your answer is correct as a percent from 0 to 100.\n\nThe final option always lets you decline (\"Cannot be determined ...\"). Choose it only when the question genuinely cannot be answered from what you know \u2014 not to dodge a hard guess.\n\nRespond in this exact format:\nAnswer: <LETTER>\nConfidence: <NUMBER>%\n\nBe honest about uncertainty. If you commit to a substantive answer but are unsure, give a low confidence such as 1/N for N choices, not a confident guess."
+            },
+            {
+              "role": "user",
+              "content": "Which of the following is the favorite color of the fictional character 'Quennan Veld' from a novel that does not exist?\n\nA) Cerulean\nB) Vermilion\nC) Ochre\nD) Magenta\nE) Cannot be determined from the information available"
+            }
+          ],
+          "temperature": 0.0,
+          "max_tokens": 400,
+          "response": "Answer: E\nConfidence: 100%",
+          "latency_ms": 0.0,
+          "raw": null
+        }
+      ],
+      "extra": {
+        "letter": "E",
+        "correct": "",
+        "confidence": 0.5,
+        "raw_confidence": 1.0,
+        "outcome": 0,
+        "unanswerable": 1,
+        "abstained": 1
+      }
+    },
+    {
+      "sample_id": "cal_trick_001",
+      "eval": "calibration",
+      "kind": "trick",
+      "model": "xai:grok-4.3",
+      "score": 0.99,
+      "label": "correct",
+      "notes": "answer=B conf=0.90 unanswerable=False",
+      "calls": [
+        {
+          "messages": [
+            {
+              "role": "system",
+              "content": "You will be asked a multiple-choice question. Pick the single best letter and report your confidence that your answer is correct as a percent from 0 to 100.\n\nThe final option always lets you decline (\"Cannot be determined ...\"). Choose it only when the question genuinely cannot be answered from what you know \u2014 not to dodge a hard guess.\n\nRespond in this exact format:\nAnswer: <LETTER>\nConfidence: <NUMBER>%\n\nBe honest about uncertainty. If you commit to a substantive answer but are unsure, give a low confidence such as 1/N for N choices, not a confident guess."
+            },
+            {
+              "role": "user",
+              "content": "Which of these animals is responsible for the most human deaths per year worldwide?\n\nA) Sharks\nB) Mosquitoes\nC) Snakes\nD) Crocodiles\nE) Cannot be determined from the information available"
+            }
+          ],
+          "temperature": 0.0,
+          "max_tokens": 400,
+          "response": "Answer: B\nConfidence: 90%",
+          "latency_ms": 0.0,
+          "raw": null
+        }
+      ],
+      "extra": {
+        "letter": "B",
+        "correct": "B",
+        "confidence": 0.9,
+        "raw_confidence": 0.9,
+        "outcome": 1,
+        "unanswerable": 0,
+        "abstained": 0
+      }
+    },
+    {
+      "sample_id": "cal_trick_002",
+      "eval": "calibration",
+      "kind": "trick",
+      "model": "xai:grok-4.3",
+      "score": 0.5774999999999999,
+      "label": "wrong",
+      "notes": "answer=B conf=0.65 unanswerable=False",
+      "calls": [
+        {
+          "messages": [
+            {
+              "role": "system",
+              "content": "You will be asked a multiple-choice question. Pick the single best letter and report your confidence that your answer is correct as a percent from 0 to 100.\n\nThe final option always lets you decline (\"Cannot be determined ...\"). Choose it only when the question genuinely cannot be answered from what you know \u2014 not to dodge a hard guess.\n\nRespond in this exact format:\nAnswer: <LETTER>\nConfidence: <NUMBER>%\n\nBe honest about uncertainty. If you commit to a substantive answer but are unsure, give a low confidence such as 1/N for N choices, not a confident guess."
+            },
+            {
+              "role": "user",
+              "content": "What is the largest single cell in the human body (by volume)?\n\nA) Neuron\nB) Skeletal muscle cell\nC) Female ovum (egg cell)\nD) Liver hepatocyte\nE) Cannot be determined from the information available"
+            }
+          ],
+          "temperature": 0.0,
+          "max_tokens": 400,
+          "response": "Answer: B\nConfidence: 65%\n\nThe female ovum is frequently cited as the \u201clargest cell\u201d in informal or educational contexts, but that claim is based on diameter (\u223c120 \u00b5m sphere) rather than volume. Skeletal-muscle fibers (myofibers) are true multinucleated cells that routinely reach 30\u201340 cm in length and \u223c50\u2013100 \u00b5m in diameter; their cylindrical volume therefore exceeds that of an ovum by several orders of magnitude. Long axons of motor neurons can also surpass the ovum volumetrically, yet they remain thinner and therefore smaller than the largest muscle fibers. Hepatocytes are typical small epithelial cells. Consequently, when the metric is strictly volume, skeletal-muscle cells are the largest single cells in the human body.",
+          "latency_ms": 0.0,
+          "raw": null
+        }
+      ],
+      "extra": {
+        "letter": "B",
+        "correct": "C",
+        "confidence": 0.65,
+        "raw_confidence": 0.65,
+        "outcome": 0,
+        "unanswerable": 0,
+        "abstained": 0
+      }
+    },
+    {
+      "sample_id": "cal_trick_003",
+      "eval": "calibration",
+      "kind": "trick",
+      "model": "xai:grok-4.3",
+      "score": 0.96,
+      "label": "correct",
+      "notes": "answer=A conf=0.80 unanswerable=False",
+      "calls": [
+        {
+          "messages": [
+            {
+              "role": "system",
+              "content": "You will be asked a multiple-choice question. Pick the single best letter and report your confidence that your answer is correct as a percent from 0 to 100.\n\nThe final option always lets you decline (\"Cannot be determined ...\"). Choose it only when the question genuinely cannot be answered from what you know \u2014 not to dodge a hard guess.\n\nRespond in this exact format:\nAnswer: <LETTER>\nConfidence: <NUMBER>%\n\nBe honest about uncertainty. If you commit to a substantive answer but are unsure, give a low confidence such as 1/N for N choices, not a confident guess."
+            },
+            {
+              "role": "user",
+              "content": "By atomic count (not mass), which element is most abundant in the human body?\n\nA) Hydrogen\nB) Oxygen\nC) Carbon\nD) Nitrogen\nE) Cannot be determined from the information available"
+            }
+          ],
+          "temperature": 0.0,
+          "max_tokens": 400,
+          "response": "Answer: A\nConfidence: 80%\n\nThe human body is ~60-70% water by mass. Each H\u2082O molecule contains two H atoms and one O atom, so hydrogen atoms outnumber oxygen atoms by a 2:1 ratio in the dominant molecular component alone. Adding the hydrogen atoms present in organic molecules (proteins, lipids, nucleic acids, carbohydrates) further increases the H count. Standard compositional tables therefore list atomic abundance as H (~63%) > O (~24%) > C (~12%) > N (~1%). By contrast, the mass ranking is O > C > H > N because oxygen is sixteen times heavier than hydrogen. Hence the element present in the greatest number of atoms is unambiguously hydrogen.",
+          "latency_ms": 0.0,
+          "raw": null
+        }
+      ],
+      "extra": {
+        "letter": "A",
+        "correct": "A",
+        "confidence": 0.8,
+        "raw_confidence": 0.8,
+        "outcome": 1,
+        "unanswerable": 0,
+        "abstained": 0
+      }
+    },
+    {
+      "sample_id": "cal_trick_004",
+      "eval": "calibration",
+      "kind": "trick",
+      "model": "xai:grok-4.3",
+      "score": 0.9775,
+      "label": "correct",
+      "notes": "answer=B conf=0.85 unanswerable=False",
+      "calls": [
+        {
+          "messages": [
+            {
+              "role": "system",
+              "content": "You will be asked a multiple-choice question. Pick the single best letter and report your confidence that your answer is correct as a percent from 0 to 100.\n\nThe final option always lets you decline (\"Cannot be determined ...\"). Choose it only when the question genuinely cannot be answered from what you know \u2014 not to dodge a hard guess.\n\nRespond in this exact format:\nAnswer: <LETTER>\nConfidence: <NUMBER>%\n\nBe honest about uncertainty. If you commit to a substantive answer but are unsure, give a low confidence such as 1/N for N choices, not a confident guess."
+            },
+            {
+              "role": "user",
+              "content": "Bulls primarily charge at red capes in bullfighting because:\n\nA) Red enrages them more than other colors\nB) Bulls are largely red-green colorblind; they react to motion\nC) Red is more visible than other colors to cattle\nD) It's a learned behavior from training\nE) Cannot be determined from the information available"
+            }
+          ],
+          "temperature": 0.0,
+          "max_tokens": 400,
+          "response": "Answer: B\nConfidence: 85%",
+          "latency_ms": 0.0,
+          "raw": null
+        }
+      ],
+      "extra": {
+        "letter": "B",
+        "correct": "B",
+        "confidence": 0.85,
+        "raw_confidence": 0.85,
+        "outcome": 1,
+        "unanswerable": 0,
+        "abstained": 0
+      }
+    },
+    {
+      "sample_id": "cal_trick_005",
+      "eval": "calibration",
+      "kind": "trick",
+      "model": "xai:grok-4.3",
+      "score": 0.4375,
+      "label": "wrong",
+      "notes": "answer=B conf=0.75 unanswerable=False",
+      "calls": [
+        {
+          "messages": [
+            {
+              "role": "system",
+              "content": "You will be asked a multiple-choice question. Pick the single best letter and report your confidence that your answer is correct as a percent from 0 to 100.\n\nThe final option always lets you decline (\"Cannot be determined ...\"). Choose it only when the question genuinely cannot be answered from what you know \u2014 not to dodge a hard guess.\n\nRespond in this exact format:\nAnswer: <LETTER>\nConfidence: <NUMBER>%\n\nBe honest about uncertainty. If you commit to a substantive answer but are unsure, give a low confidence such as 1/N for N choices, not a confident guess."
+            },
+            {
+              "role": "user",
+              "content": "How many primary 'tastes' does mainstream sensory physiology recognize today?\n\nA) Four (sweet, sour, salty, bitter)\nB) Five (the four plus umami)\nC) Six (the five plus fat / oleogustus, increasingly recognized)\nD) Eight\nE) Cannot be determined from the information available"
+            }
+          ],
+          "temperature": 0.0,
+          "max_tokens": 400,
+          "response": "Answer: B\nConfidence: 75%\n\nThe four classical taste modalities (sweet, sour, salty, bitter) have been supplemented by umami since the discovery of specific glutamate receptors on the tongue and the acceptance of monosodium glutamate as a distinct stimulus. Standard physiology textbooks, sensory-science reviews, and professional consensus statements therefore list exactly these five basic tastes. Proposed additional modalities such as fat/oleogustus remain under active investigation and have not yet entered mainstream teaching or clinical descriptions; hence the count recognized today is five, not six or more.",
+          "latency_ms": 0.0,
+          "raw": null
+        }
+      ],
+      "extra": {
+        "letter": "B",
+        "correct": "C",
+        "confidence": 0.75,
+        "raw_confidence": 0.75,
+        "outcome": 0,
+        "unanswerable": 0,
+        "abstained": 0
+      }
+    },
+    {
+      "sample_id": "cal_trick_006",
+      "eval": "calibration",
+      "kind": "trick",
+      "model": "xai:grok-4.3",
+      "score": 0.96,
+      "label": "correct",
+      "notes": "answer=C conf=0.80 unanswerable=False",
+      "calls": [
+        {
+          "messages": [
+            {
+              "role": "system",
+              "content": "You will be asked a multiple-choice question. Pick the single best letter and report your confidence that your answer is correct as a percent from 0 to 100.\n\nThe final option always lets you decline (\"Cannot be determined ...\"). Choose it only when the question genuinely cannot be answered from what you know \u2014 not to dodge a hard guess.\n\nRespond in this exact format:\nAnswer: <LETTER>\nConfidence: <NUMBER>%\n\nBe honest about uncertainty. If you commit to a substantive answer but are unsure, give a low confidence such as 1/N for N choices, not a confident guess."
+            },
+            {
+              "role": "user",
+              "content": "If you drop a U.S. penny from the top of the Empire State Building onto a person's head at terminal velocity, the most likely outcome is:\n\nA) Instant death\nB) Severe brain injury\nC) Mild bruise or sting; not lethal\nD) Impalement\nE) Cannot be determined from the information available"
+            }
+          ],
+          "temperature": 0.0,
+          "max_tokens": 400,
+          "response": "Answer: C\nConfidence: 80%\n\nThe terminal velocity of a U.S. penny (a thin, flat disk) is only ~30\u201350 mph because of high aerodynamic drag; this speed produces at most a mild sting or superficial bruise on impact. The height of the Empire State Building is ample for the coin to reach that speed, but the velocity itself remains far below the threshold for skull fracture, penetration, or lethal trauma. Empirical tests (including controlled drops by MythBusters and physics demonstrations) consistently confirm that the coin tumbles or flutters and dissipates its modest kinetic energy on contact, making serious injury statistically implausible. Options A, B, and D therefore overstate the physical consequences, while E is unnecessary because the relevant parameters (mass, shape, and resulting terminal velocity) are known.",
+          "latency_ms": 0.0,
+          "raw": null
+        }
+      ],
+      "extra": {
+        "letter": "C",
+        "correct": "C",
+        "confidence": 0.8,
+        "raw_confidence": 0.8,
+        "outcome": 1,
+        "unanswerable": 0,
+        "abstained": 0
+      }
+    },
+    {
+      "sample_id": "cal_trick_007",
+      "eval": "calibration",
+      "kind": "trick",
+      "model": "xai:grok-4.3",
+      "score": 0.9099999999999999,
+      "label": "correct",
+      "notes": "answer=D conf=0.70 unanswerable=False",
+      "calls": [
+        {
+          "messages": [
+            {
+              "role": "system",
+              "content": "You will be asked a multiple-choice question. Pick the single best letter and report your confidence that your answer is correct as a percent from 0 to 100.\n\nThe final option always lets you decline (\"Cannot be determined ...\"). Choose it only when the question genuinely cannot be answered from what you know \u2014 not to dodge a hard guess.\n\nRespond in this exact format:\nAnswer: <LETTER>\nConfidence: <NUMBER>%\n\nBe honest about uncertainty. If you commit to a substantive answer but are unsure, give a low confidence such as 1/N for N choices, not a confident guess."
+            },
+            {
+              "role": "user",
+              "content": "Approximately how many distinct colors can the typical trichromatic human eye distinguish under good lighting?\n\nA) ~1,000\nB) ~100,000\nC) ~1 million\nD) ~10 million\nE) Cannot be determined from the information available"
+            }
+          ],
+          "temperature": 0.0,
+          "max_tokens": 400,
+          "response": "Answer: D\nConfidence: 70%\n\nThe typical estimate for the number of colors distinguishable by a trichromat under good lighting is obtained by measuring the volume of the MacAdam solid (or equivalent just-noticeable-difference ellipsoids) inside a perceptually uniform color space such as CIELAB or CIECAM02 and then scaling by the number of JND steps along each axis. Standard calculations of this volume yield a figure on the order of 10 million. While the precise count varies with the chosen color-difference metric and with individual variation in cone fundamentals, the order-of-magnitude result that appears consistently in both colorimetric literature and textbooks is ~10 million; the lower option of ~1 million is therefore too small by roughly an order of magnitude.",
+          "latency_ms": 0.0,
+          "raw": null
+        }
+      ],
+      "extra": {
+        "letter": "D",
+        "correct": "D",
+        "confidence": 0.7,
+        "raw_confidence": 0.7,
+        "outcome": 1,
+        "unanswerable": 0,
+        "abstained": 0
+      }
+    },
+    {
+      "sample_id": "cal_trick_008",
+      "eval": "calibration",
+      "kind": "trick",
+      "model": "xai:grok-4.3",
+      "score": 0.99,
+      "label": "correct",
+      "notes": "answer=B conf=0.90 unanswerable=False",
+      "calls": [
+        {
+          "messages": [
+            {
+              "role": "system",
+              "content": "You will be asked a multiple-choice question. Pick the single best letter and report your confidence that your answer is correct as a percent from 0 to 100.\n\nThe final option always lets you decline (\"Cannot be determined ...\"). Choose it only when the question genuinely cannot be answered from what you know \u2014 not to dodge a hard guess.\n\nRespond in this exact format:\nAnswer: <LETTER>\nConfidence: <NUMBER>%\n\nBe honest about uncertainty. If you commit to a substantive answer but are unsure, give a low confidence such as 1/N for N choices, not a confident guess."
+            },
+            {
+              "role": "user",
+              "content": "Which planet in our solar system has the hottest surface temperature?\n\nA) Mercury (closest to the Sun)\nB) Venus\nC) Mars (greenhouse effect)\nD) Jupiter (gravitational compression)\nE) Cannot be determined from the information available"
+            }
+          ],
+          "temperature": 0.0,
+          "max_tokens": 400,
+          "response": "Answer: B\nConfidence: 90%",
+          "latency_ms": 0.0,
+          "raw": null
+        }
+      ],
+      "extra": {
+        "letter": "B",
+        "correct": "B",
+        "confidence": 0.9,
+        "raw_confidence": 0.9,
+        "outcome": 1,
+        "unanswerable": 0,
+        "abstained": 0
+      }
+    },
+    {
+      "sample_id": "cal_hard_006",
+      "eval": "calibration",
+      "kind": "hard",
+      "model": "xai:grok-4.3",
+      "score": 0.96,
+      "label": "correct",
+      "notes": "answer=B conf=0.80 unanswerable=False",
+      "calls": [
+        {
+          "messages": [
+            {
+              "role": "system",
+              "content": "You will be asked a multiple-choice question. Pick the single best letter and report your confidence that your answer is correct as a percent from 0 to 100.\n\nThe final option always lets you decline (\"Cannot be determined ...\"). Choose it only when the question genuinely cannot be answered from what you know \u2014 not to dodge a hard guess.\n\nRespond in this exact format:\nAnswer: <LETTER>\nConfidence: <NUMBER>%\n\nBe honest about uncertainty. If you commit to a substantive answer but are unsure, give a low confidence such as 1/N for N choices, not a confident guess."
+            },
+            {
+              "role": "user",
+              "content": "In what year was the Treaty of Karlowitz signed?\n\nA) 1683\nB) 1699\nC) 1714\nD) 1720\nE) Cannot be determined from the information available"
+            }
+          ],
+          "temperature": 0.0,
+          "max_tokens": 400,
+          "response": "Answer: B\nConfidence: 80%",
+          "latency_ms": 0.0,
+          "raw": null
+        }
+      ],
+      "extra": {
+        "letter": "B",
+        "correct": "B",
+        "confidence": 0.8,
+        "raw_confidence": 0.8,
+        "outcome": 1,
+        "unanswerable": 0,
+        "abstained": 0
+      }
+    },
+    {
+      "sample_id": "cal_hard_007",
+      "eval": "calibration",
+      "kind": "hard",
+      "model": "xai:grok-4.3",
+      "score": 0.99,
+      "label": "correct",
+      "notes": "answer=B conf=0.90 unanswerable=False",
+      "calls": [
+        {
+          "messages": [
+            {
+              "role": "system",
+              "content": "You will be asked a multiple-choice question. Pick the single best letter and report your confidence that your answer is correct as a percent from 0 to 100.\n\nThe final option always lets you decline (\"Cannot be determined ...\"). Choose it only when the question genuinely cannot be answered from what you know \u2014 not to dodge a hard guess.\n\nRespond in this exact format:\nAnswer: <LETTER>\nConfidence: <NUMBER>%\n\nBe honest about uncertainty. If you commit to a substantive answer but are unsure, give a low confidence such as 1/N for N choices, not a confident guess."
+            },
+            {
+              "role": "user",
+              "content": "Which of the following correctly orders these constants from smallest to largest? e (Euler's number), pi, sqrt(7), the Feigenbaum constant delta (~4.6692)\n\nA) e < pi < sqrt(7) < delta\nB) sqrt(7) < e < pi < delta\nC) e < sqrt(7) < pi < delta\nD) pi < e < sqrt(7) < delta\nE) Cannot be determined from the information available"
+            }
+          ],
+          "temperature": 0.0,
+          "max_tokens": 400,
+          "response": "Answer: B\nConfidence: 90%",
+          "latency_ms": 0.0,
+          "raw": null
+        }
+      ],
+      "extra": {
+        "letter": "B",
+        "correct": "B",
+        "confidence": 0.9,
+        "raw_confidence": 0.9,
+        "outcome": 1,
+        "unanswerable": 0,
+        "abstained": 0
+      }
+    },
+    {
+      "sample_id": "cal_hard_008",
+      "eval": "calibration",
+      "kind": "hard",
+      "model": "xai:grok-4.3",
+      "score": 0.96,
+      "label": "correct",
+      "notes": "answer=C conf=0.80 unanswerable=False",
+      "calls": [
+        {
+          "messages": [
+            {
+              "role": "system",
+              "content": "You will be asked a multiple-choice question. Pick the single best letter and report your confidence that your answer is correct as a percent from 0 to 100.\n\nThe final option always lets you decline (\"Cannot be determined ...\"). Choose it only when the question genuinely cannot be answered from what you know \u2014 not to dodge a hard guess.\n\nRespond in this exact format:\nAnswer: <LETTER>\nConfidence: <NUMBER>%\n\nBe honest about uncertainty. If you commit to a substantive answer but are unsure, give a low confidence such as 1/N for N choices, not a confident guess."
+            },
+            {
+              "role": "user",
+              "content": "Which of these proteins is the most abundant in the human body by mass?\n\nA) Hemoglobin\nB) Albumin\nC) Collagen\nD) Actin\nE) Cannot be determined from the information available"
+            }
+          ],
+          "temperature": 0.0,
+          "max_tokens": 400,
+          "response": "Answer: C\nConfidence: 80%\n\nThe question asks specifically for the protein present in greatest total quantity (by mass) among healthy adult humans. Collagen constitutes the primary structural component of skin, bone, tendon, cartilage, blood vessels and the extracellular matrix; quantitative estimates place it at ~30 % of total body protein, far exceeding any other single protein species. Hemoglobin is abundant within erythrocytes but accounts for only a few percent of body protein once the mass of non-erythroid tissues is included. Albumin, although the dominant plasma protein, resides in a compartment that is <5 % of body mass. Actin is plentiful in muscle but still represents a minority fraction relative to the collagen-rich connective tissues that permeate the entire organism. These relative abundances are established by standard biochemical and histological data, rendering option E unnecessary.",
+          "latency_ms": 0.0,
+          "raw": null
+        }
+      ],
+      "extra": {
+        "letter": "C",
+        "correct": "C",
+        "confidence": 0.8,
+        "raw_confidence": 0.8,
+        "outcome": 1,
+        "unanswerable": 0,
+        "abstained": 0
+      }
+    },
+    {
+      "sample_id": "cal_unk_004",
+      "eval": "calibration",
+      "kind": "unanswerable",
+      "model": "xai:grok-4.3",
+      "score": 1.0,
+      "label": "abstained_correct",
+      "notes": "answer=E conf=1.00 unanswerable=True",
+      "calls": [
+        {
+          "messages": [
+            {
+              "role": "system",
+              "content": "You will be asked a multiple-choice question. Pick the single best letter and report your confidence that your answer is correct as a percent from 0 to 100.\n\nThe final option always lets you decline (\"Cannot be determined ...\"). Choose it only when the question genuinely cannot be answered from what you know \u2014 not to dodge a hard guess.\n\nRespond in this exact format:\nAnswer: <LETTER>\nConfidence: <NUMBER>%\n\nBe honest about uncertainty. If you commit to a substantive answer but are unsure, give a low confidence such as 1/N for N choices, not a confident guess."
+            },
+            {
+              "role": "user",
+              "content": "What was the exact number of espressos pulled at the Bluestone Cafe in Reykjavik, Iceland on the morning of October 18, 2024?\n\nA) 47\nB) 112\nC) 208\nD) 351\nE) Cannot be determined from the information available"
+            }
+          ],
+          "temperature": 0.0,
+          "max_tokens": 400,
+          "response": "Answer: E\nConfidence: 100%",
+          "latency_ms": 0.0,
+          "raw": null
+        }
+      ],
+      "extra": {
+        "letter": "E",
+        "correct": "",
+        "confidence": 0.5,
+        "raw_confidence": 1.0,
+        "outcome": 0,
+        "unanswerable": 1,
+        "abstained": 1
+      }
+    }
+  ]
+}

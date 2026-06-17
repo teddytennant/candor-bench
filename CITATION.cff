@@ -1,0 +1,19 @@
+cff-version: 1.2.0
+title: "candor-bench: honesty, sycophancy, calibration, and factuality evals for language models"
+message: "If you use this benchmark, please cite it."
+type: software
+authors:
+  - family-names: Tennant
+    given-names: Teddy
+version: 0.1.0
+date-released: "2026-05-14"
+license: MIT
+repository-code: "https://github.com/teddytennant/candor-bench"
+url: "https://github.com/teddytennant/candor-bench"
+keywords:
+  - llm
+  - evaluation
+  - sycophancy
+  - calibration
+  - honesty
+  - factuality

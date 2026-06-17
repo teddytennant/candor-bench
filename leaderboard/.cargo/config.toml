@@ -1,0 +1,10 @@
+# NixOS + rustup linker workaround.
+#
+# Rust 1.90+ links via `lld` by default on x86_64-unknown-linux-gnu. On a NixOS
+# box driving rustc through rustup, the bundled `rust-lld` shim can point at a
+# stale nix store path and there may be no system `lld`, so the default link
+# step fails with "invalid linker name in argument '-fuse-ld=lld'". Falling back
+# to the system `ld` fixes it and is harmless elsewhere (it just links with GNU
+# ld instead of lld). Safe to delete if your toolchain's lld works.
+[target.x86_64-unknown-linux-gnu]
+rustflags = ["-C", "linker-features=-lld"]

@@ -1,0 +1,67 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "candor-bench"
+version = "0.1.0"
+description = "Honesty, sycophancy, calibration, and factuality evals for language models."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "Teddy Tennant", email = "teddytennant@icloud.com" }]
+keywords = ["llm", "eval", "sycophancy", "calibration", "honesty", "factuality"]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Science/Research",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = [
+  "httpx>=0.27",
+  "pydantic>=2.6",
+  "python-dotenv>=1.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/teddytennant/candor-bench"
+Repository = "https://github.com/teddytennant/candor-bench"
+Issues = "https://github.com/teddytennant/candor-bench/issues"
+Changelog = "https://github.com/teddytennant/candor-bench/blob/main/CHANGELOG.md"
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8",
+  "pytest-asyncio>=0.23",
+  "ruff>=0.4",
+]
+
+[project.scripts]
+candor = "candor.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["candor*"]
+
+[tool.setuptools.package-data]
+candor = ["data/**/*.jsonl", "data/**/*.json"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+filterwarnings = ["ignore::DeprecationWarning"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "SIM"]
+ignore = ["E501"]
