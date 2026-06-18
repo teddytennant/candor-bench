@@ -192,9 +192,60 @@ mod tests {
     }
 
     #[test]
-    fn mean_score_rejects_non_finite() {
+    fn mean_score_none_when_absent() {
         let json = r#"{"eval":"e","model":"m","n":1,"metrics":{}}"#;
         let r: EvalReport = serde_json::from_str(json).unwrap();
         assert_eq!(r.mean_score(), None);
+    }
+
+    /// serde_json refuses to parse non-finite numbers, so the `is_finite`
+    /// guard in `mean_score` is only reachable on a directly-built report.
+    /// Exercise it so the defensive branch stays honest.
+    #[test]
+    fn mean_score_rejects_non_finite() {
+        for bad in [f64::NAN, f64::INFINITY, f64::NEG_INFINITY] {
+            let r = EvalReport {
+                eval: "e".into(),
+                model: "m".into(),
+                n: 1,
+                metrics: BTreeMap::from([("mean_score".to_string(), bad)]),
+                breakdown: BTreeMap::new(),
+            };
+            assert_eq!(r.mean_score(), None, "should reject {bad}");
+        }
+        // ...and a finite value still passes through.
+        let ok = EvalReport {
+            eval: "e".into(),
+            model: "m".into(),
+            n: 1,
+            metrics: BTreeMap::from([("mean_score".to_string(), 0.5)]),
+            breakdown: BTreeMap::new(),
+        };
+        assert_eq!(ok.mean_score(), Some(0.5));
+    }
+
+    #[test]
+    fn present_kinds_orders_preferred_then_alpha() {
+        let eval = EVALS[0];
+        let model = MODELS[0].0;
+        let report = EvalReport {
+            eval: eval.to_string(),
+            model: model.to_string(),
+            n: 1,
+            metrics: BTreeMap::from([("mean_score".to_string(), 1.0)]),
+            // Insertion order deliberately scrambled; "zeta"/"alpha" are not in
+            // `preferred` and must come back alphabetically after the preferred.
+            breakdown: BTreeMap::from([
+                ("zeta".to_string(), BTreeMap::new()),
+                ("beta".to_string(), BTreeMap::new()),
+                ("alpha".to_string(), BTreeMap::new()),
+            ]),
+        };
+        let mut cells = Cells::new();
+        cells.insert((eval.to_string(), model.to_string()), report);
+
+        // "beta" is preferred and present; "gamma" is preferred but absent.
+        let kinds = present_kinds(eval, &["beta", "gamma"], &cells);
+        assert_eq!(kinds, vec!["beta", "alpha", "zeta"]);
     }
 }

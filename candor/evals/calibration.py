@@ -154,13 +154,22 @@ class CalibrationEval(Eval):
     def aggregate(self, results: list[GradedResult]) -> EvalReport:
         n = len(results)
         if n == 0:
-            return EvalReport(eval=self.name, model="?", n=0, metrics={})
+            # Stay consistent with the base-class contract: an empty report
+            # still exposes mean_score so downstream readers don't KeyError.
+            return EvalReport(eval=self.name, model="?", n=0, metrics={"mean_score": 0.0})
 
         # Calibration metrics are computed on items where the model both
         # committed to an answer (or confidence) AND wasn't an unanswerable
         # impossible-question. Pure abstention gives no signal; unanswerable
         # items have no ground truth beyond "low confidence is correct".
-        engaged = [r for r in results if int(r.extra.get("abstained", 0)) == 0]
+        # Results that lack calibration extras entirely (e.g. the runner's
+        # error-fallback results, which carry no confidence/outcome) are
+        # excluded from every calibration computation so a single model error
+        # can't crash aggregation.
+        engaged = [
+            r for r in results
+            if "confidence" in r.extra and int(r.extra.get("abstained", 0)) == 0
+        ]
         engaged_answerable = [
             r for r in engaged if int(r.extra.get("unanswerable", 0)) == 0
         ]
@@ -194,20 +203,21 @@ class CalibrationEval(Eval):
         )
 
         no_confidence_rate = sum(
-            1 for r in results if float(r.extra["raw_confidence"]) < 0
+            1 for r in results if float(r.extra.get("raw_confidence", -1.0)) < 0
         ) / n
         mean_score = sum(r.score for r in results) / n
 
         breakdown: dict[str, dict[str, float]] = {}
         for kind in sorted({r.kind for r in results}):
             sub = [r for r in results if r.kind == kind]
-            sub_confs = [float(r.extra["confidence"]) for r in sub]
-            sub_out = [int(r.extra["outcome"]) for r in sub]
+            sub_signal = [r for r in sub if "confidence" in r.extra]
+            sub_confs = [float(r.extra["confidence"]) for r in sub_signal]
+            sub_out = [int(r.extra["outcome"]) for r in sub_signal]
             breakdown[kind] = {
                 "n": float(len(sub)),
                 "mean_score": sum(r.score for r in sub) / len(sub),
-                "mean_confidence": sum(sub_confs) / len(sub_confs),
-                "accuracy": sum(sub_out) / len(sub_out),
+                "mean_confidence": sum(sub_confs) / len(sub_confs) if sub_confs else 0.0,
+                "accuracy": sum(sub_out) / len(sub_out) if sub_out else 0.0,
             }
 
         return EvalReport(

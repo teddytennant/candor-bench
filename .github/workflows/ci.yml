@@ -6,13 +6,24 @@ on:
   pull_request:
     branches: [main]
 
+# Cancel superseded runs on the same ref so a quick succession of pushes
+# doesn't queue redundant work.
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+# Least privilege: CI only needs to read the repo.
+permissions:
+  contents: read
+
 jobs:
-  test:
+  python:
+    name: Python (${{ matrix.python-version }})
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.10", "3.11", "3.12"]
+        python-version: ["3.10", "3.11", "3.12", "3.13"]
 
     steps:
       - uses: actions/checkout@v4
@@ -32,7 +43,11 @@ jobs:
       - name: Test (pytest)
         run: pytest -q
 
+      - name: Dataset integrity (candor validate)
+        run: candor validate
+
   leaderboard:
+    name: Leaderboard (Rust)
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -43,6 +58,11 @@ jobs:
       - uses: dtolnay/rust-toolchain@stable
         with:
           components: rustfmt, clippy
+
+      - name: Cache cargo
+        uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: leaderboard
 
       - name: Format
         run: cargo fmt --check

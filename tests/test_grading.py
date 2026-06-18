@@ -116,6 +116,21 @@ class TestExtractConfidenceRegression:
         assert c is not None
         assert abs(c - 0.80) < 1e-9
 
+    def test_p_correct_decimal(self):
+        c = extract_confidence("P(correct) = 0.8")
+        assert c is not None
+        assert abs(c - 0.8) < 1e-9
+
+    def test_percent_over_100_clamps_to_one(self):
+        c = extract_confidence("Confidence: 150%")
+        assert c == 1.0
+
+    def test_bare_probability_fallback(self):
+        # No marker at all, just a lone probability-looking decimal.
+        c = extract_confidence("I'd put it around 0.42 for this one.")
+        assert c is not None
+        assert abs(c - 0.42) < 1e-9
+
 
 class TestExtractLetterCoverage:
     def test_right_answer_is(self):

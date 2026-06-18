@@ -183,3 +183,101 @@ def test_auroc_ranking_is_threshold_independent():
     # Perfect separation regardless of absolute score magnitude.
     assert auroc([0.51, 0.50], [1, 0]) == 1.0
     assert auroc([100.0, -100.0], [1, 0]) == 1.0
+
+
+def test_auroc_log_loss_overconfidence_length_mismatch_raise():
+    # The remaining metrics also validate equal lengths.
+    for fn in (auroc, log_loss, overconfidence):
+        with pytest.raises(ValueError, match="same length"):
+            fn([0.5, 0.5], [1])
+
+
+def test_auroc_empty_is_neutral():
+    assert auroc([], []) == 0.5
+
+
+def test_ece_partial_bins_weighted_by_count():
+    # Two predictions in the 0.0-0.1 bin (avg_p=0.05, avg_y=0.5 -> gap 0.45)
+    # and eight in the 0.9-1.0 bin (avg_p=0.9, avg_y=1.0 -> gap 0.1).
+    # ECE = (2/10)*0.45 + (8/10)*0.10 = 0.09 + 0.08 = 0.17.
+    probs = [0.05, 0.05] + [0.9] * 8
+    outcomes = [0, 1] + [1] * 8
+    assert expected_calibration_error(probs, outcomes, n_bins=10) == pytest.approx(0.17)
+
+
+def test_ece_prob_at_upper_edge_does_not_overflow_bin():
+    # p == 1.0 must land in the last bin (index n_bins-1), not raise IndexError.
+    assert expected_calibration_error([1.0, 1.0], [1, 1]) == 0.0
+
+
+# ---- factuality grading helpers -----------------------------------------
+#
+# `_matches_any` is the factuality grader's accept/reject core. Its number-edge
+# guard and Unicode folding are correctness-critical: a leak there scores wrong
+# answers as correct (e.g. accepting "1000" for an answer of "100").
+
+
+def test_factuality_number_edge_guard_blocks_substring_of_longer_number():
+    from candor.evals.factuality import _matches_any
+
+    assert _matches_any("the value is 100", ["100"])
+    assert not _matches_any("the value is 1000", ["100"])
+    assert not _matches_any("in the year 2100", ["100"])
+    # Guard only applies at numeric edges — a worded answer is unaffected.
+    assert _matches_any("the capital is Paris", ["paris"])
+
+
+def test_factuality_unicode_subscript_folding():
+    from candor.evals.factuality import _matches_any
+
+    assert _matches_any("the formula is H₂O", ["h2o"])
+    assert _matches_any("about 10²³ molecules", ["1023"])
+    # En/em dashes fold to ASCII hyphen so authored ranges still match.
+    assert _matches_any("roughly 3–7 percent", ["3-7"])
+
+
+def test_factuality_invalid_regex_pattern_falls_back_to_substring():
+    from candor.evals.factuality import _matches_any
+
+    # An unbalanced paren is not valid regex; the grader must not crash and
+    # should fall back to a literal substring check.
+    assert _matches_any("the result (approx) was fine", ["(approx"])
+
+
+# ---- aggregate robustness on degenerate / error results -----------------
+#
+# The runner replaces a sample that raised with an "error" GradedResult that
+# carries an empty `extra` dict. Overridden aggregates (calibration/factuality)
+# must survive those without crashing, and must honor the base-class contract
+# of always exposing `mean_score` (even for an empty run).
+
+
+def _error_result(eval_name: str, kind: str) -> GradedResult:
+    """Mirror the runner's error-fallback result: neutral score, empty extra."""
+    return GradedResult(
+        sample_id="boom",
+        eval=eval_name,
+        kind=kind,
+        model="stub:x",
+        score=0.5,
+        label="error",
+    )
+
+
+def test_calibration_aggregate_survives_error_results():
+    eval_obj = get_eval("calibration")
+    results = [_error_result("calibration", "easy") for _ in range(3)]
+    report = eval_obj.aggregate(results)  # must not raise KeyError
+    assert report.n == 3
+    assert report.metrics["mean_score"] == 0.5
+    # No usable confidence signal -> calibration metrics collapse to neutral.
+    assert report.metrics["brier"] == 0.0
+    assert report.metrics["ece"] == 0.0
+    assert report.breakdown["easy"]["mean_confidence"] == 0.0
+
+
+@pytest.mark.parametrize("eval_name", ["calibration", "factuality"])
+def test_overridden_aggregate_empty_exposes_mean_score(eval_name):
+    report = get_eval(eval_name).aggregate([])
+    assert report.n == 0
+    assert report.metrics["mean_score"] == 0.0

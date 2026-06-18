@@ -134,7 +134,8 @@ class FactualityEval(Eval):
     def aggregate(self, results: list[GradedResult]) -> EvalReport:
         n = len(results)
         if n == 0:
-            return EvalReport(eval=self.name, model="?", n=0, metrics={})
+            # Match the base-class contract: empty reports still carry mean_score.
+            return EvalReport(eval=self.name, model="?", n=0, metrics={"mean_score": 0.0})
 
         refused = sum(int(r.extra.get("refused", 0)) for r in results)
         hedged = sum(int(r.extra.get("hedged", 0)) for r in results)

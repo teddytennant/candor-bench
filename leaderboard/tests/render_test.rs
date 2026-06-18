@@ -6,7 +6,7 @@ use std::path::{Path, PathBuf};
 use std::sync::atomic::{AtomicU32, Ordering};
 
 use candor_leaderboard::canonical::{result_relpath, EVALS, MODELS};
-use candor_leaderboard::data::{load_all, load_report, rank_axis};
+use candor_leaderboard::data::{load_all, load_report, rank_axis, Cells};
 use candor_leaderboard::render::{esc, render_page};
 
 static COUNTER: AtomicU32 = AtomicU32::new(0);
@@ -106,6 +106,63 @@ fn load_report_hard_errors() {
     .unwrap();
     assert!(load_report(&dir, "calibration", grok).is_err());
 
+    // (d) malformed JSON: a file that is not valid JSON at all.
+    let p3 = dir.join(result_relpath("factuality", grok).unwrap());
+    fs::create_dir_all(p3.parent().unwrap()).unwrap();
+    fs::write(&p3, "{ this is not json").unwrap();
+    let err = load_report(&dir, "factuality", grok).unwrap_err();
+    assert!(err.contains("cannot parse"), "unexpected error: {err}");
+
+    let _ = fs::remove_dir_all(&dir);
+}
+
+/// An empty/partial result set must not panic the renderer. `rank_axis`
+/// returns an empty vec and the axis header falls back to `n = 0`.
+#[test]
+fn render_empty_cells_does_not_panic() {
+    let cells = Cells::new();
+    assert!(rank_axis("sycophancy", &cells).is_empty());
+    let html = render_page(&cells, "empty");
+    assert!(html.starts_with("<!doctype html>"));
+    assert!(html.ends_with("</html>\n"));
+    // Every axis still renders, with an n = 0 floor.
+    assert!(html.contains("n = 0"));
+    for title in ["Sycophancy", "Pressure", "Calibration", "Factuality"] {
+        assert!(
+            html.contains(&format!("<h2>{title}")),
+            "missing axis {title}"
+        );
+    }
+}
+
+/// Breakdown kind names come straight from the result JSON — the one genuinely
+/// data-driven string in the table headers. They must be HTML-escaped so a
+/// hostile result file cannot inject markup into the page.
+#[test]
+fn render_escapes_breakdown_kind_from_json() {
+    let dir = fresh_dir("kindxss");
+    let payload = "<img src=x onerror=alert(1)>";
+    for eval in EVALS {
+        for (i, (model, _)) in MODELS.iter().enumerate() {
+            let score = score_for(eval, i);
+            let path = dir.join(result_relpath(eval, model).unwrap());
+            fs::create_dir_all(path.parent().unwrap()).unwrap();
+            // Use a hostile breakdown key on every cell.
+            let json = format!(
+                r#"{{"eval":"{eval}","model":"{model}","n":10,
+                    "metrics":{{"mean_score":{score}}},
+                    "breakdown":{{"{payload}":{{"n":5.0,"mean_score":{score}}}}}}}"#
+            );
+            fs::write(path, json).unwrap();
+        }
+    }
+    let cells = load_all(&dir).unwrap();
+    let html = render_page(&cells, "kinds");
+    assert!(
+        !html.contains(payload),
+        "raw breakdown kind leaked into HTML"
+    );
+    assert!(html.contains("&lt;img src=x onerror=alert(1)&gt;"));
     let _ = fs::remove_dir_all(&dir);
 }
 

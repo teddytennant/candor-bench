@@ -102,3 +102,35 @@ def test_render_summary_one_row_per_report():
 
 def test_render_summary_empty():
     assert render_summary([]) == "(no reports)"
+
+
+def test_render_text_includes_per_kind_breakdown():
+    text = render_text(_report())
+    assert "breakdown by kind" in text
+    # both kinds and their per-kind metric keys are rendered
+    assert "[trivia]" in text
+    assert "[unanswerable]" in text
+    assert "mean_score" in text
+
+
+def test_render_text_handles_report_with_no_results_or_breakdown():
+    # An empty run (n=0) must still render without raising.
+    empty = EvalReport(
+        eval="calibration",
+        model="stub:x",
+        n=0,
+        metrics={"mean_score": 0.0},
+    )
+    text = render_text(empty)
+    assert "calibration" in text
+    assert "worst samples" not in text  # nothing to surface
+    assert "breakdown by kind" not in text
+
+
+def test_write_json_filename_uses_eval_and_model(tmp_path):
+    report = _report()
+    report.model = "openrouter:meta-llama/llama-3.1-8b"
+    path = write_json(report, tmp_path)
+    # provider colon and the vendor/model slash are both sanitized to '_'
+    assert path.name == "calibration__openrouter_meta-llama_llama-3.1-8b.json"
+    assert path.parent == tmp_path
