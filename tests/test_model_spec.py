@@ -87,6 +87,36 @@ def test_local_spec_without_base_url_raises(monkeypatch):
         from_spec("local:llama-3.1-8b-instruct")
 
 
+def test_kaggle_spec_appends_openapi_suffix(monkeypatch):
+    # The Kaggle Benchmarks Model Proxy is an OpenAI-compatible gateway; its
+    # OpenAI surface lives under /openapi. `kaggle benchmarks auth` hands back a
+    # bare base in MODEL_PROXY_URL, so the adapter must append the suffix and
+    # report under its own `kaggle:` tag. Model ids carry a `vendor/model` slash.
+    monkeypatch.setenv("MODEL_PROXY_URL", "https://mp.kaggle.net/models")
+    monkeypatch.setenv("MODEL_PROXY_API_KEY", "kaggle-key")
+    m = from_spec("kaggle:anthropic/claude-haiku-4-5@20251001")
+    assert isinstance(m, OpenAICompatModel)
+    assert m.model_id == "anthropic/claude-haiku-4-5@20251001"
+    assert m.base_url == "https://mp.kaggle.net/models/openapi"
+    assert m.api_key == "kaggle-key"
+    assert m.name == "kaggle:anthropic/claude-haiku-4-5@20251001"
+
+
+def test_kaggle_spec_tolerates_preexisting_suffix(monkeypatch):
+    # A base that already carries the /openapi (or /genai) tail must not be
+    # doubled up into /openapi/openapi.
+    monkeypatch.setenv("MODEL_PROXY_URL", "https://mp.kaggle.net/models/genai/")
+    monkeypatch.setenv("MODEL_PROXY_API_KEY", "k")
+    m = from_spec("kaggle:zai/glm-5")
+    assert m.base_url == "https://mp.kaggle.net/models/openapi"
+
+
+def test_kaggle_spec_without_proxy_url_raises(monkeypatch):
+    monkeypatch.delenv("MODEL_PROXY_URL", raising=False)
+    with pytest.raises(RuntimeError, match="MODEL_PROXY_URL"):
+        from_spec("kaggle:zai/glm-5")
+
+
 def test_provider_is_case_insensitive():
     assert isinstance(from_spec("STUB:honest-confident"), StubModel)
     assert isinstance(from_spec("XAI:grok-4.3"), OpenAICompatModel)

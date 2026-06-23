@@ -10,7 +10,7 @@ from .openai_compat import OpenAICompatModel
 from .stub import StubModel
 from .xai_responses import XaiResponsesModel
 
-_KNOWN = "xai, xai-responses, openai, openrouter, local, stub"
+_KNOWN = "xai, xai-responses, openai, openrouter, kaggle, local, stub"
 
 
 def from_spec(spec: str, **kwargs: Any) -> Model:
@@ -21,6 +21,7 @@ def from_spec(spec: str, **kwargs: Any) -> Model:
         xai-responses:grok-4.20-multi-agent-0309   (xAI Responses API; multi-agent family)
         openai:gpt-4o-mini                         (OpenAI; uses OPENAI_API_KEY)
         openrouter:meta-llama/llama-3.1-8b-instruct (OpenRouter gateway; uses OPENROUTER_API_KEY)
+        kaggle:anthropic/claude-haiku-4-5@20251001 (Kaggle Benchmarks Model Proxy; uses MODEL_PROXY_*)
         local:llama-3.1-8b-instruct                (any OpenAI-compatible server; uses LOCAL_*)
         stub:always-honest
     """
@@ -66,6 +67,31 @@ def from_spec(spec: str, **kwargs: Any) -> Model:
             base_url="https://openrouter.ai/api/v1",
             env_key="OPENROUTER_API_KEY",
             name_prefix="openrouter",
+            **kwargs,
+        )
+    if provider == "kaggle":
+        # Kaggle Benchmarks Model Proxy: an OpenAI-compatible gateway whose
+        # base URL and key are provisioned by `kaggle benchmarks auth`
+        # (MODEL_PROXY_URL / MODEL_PROXY_API_KEY). The OpenAI surface lives under
+        # the `/openapi` suffix; the proxy hands back a bare base, so append it
+        # (and tolerate a base that already carries the /openapi or /genai tail).
+        base = os.environ.get("MODEL_PROXY_URL")
+        if not base:
+            raise RuntimeError(
+                "MODEL_PROXY_URL not set. Run `kaggle benchmarks auth` (or "
+                "`kaggle benchmarks init`) to provision Model Proxy credentials, "
+                "then load the generated .env."
+            )
+        base = base.rstrip("/")
+        for suffix in ("/openapi", "/genai"):
+            if base.endswith(suffix):
+                base = base[: -len(suffix)]
+                break
+        return OpenAICompatModel(
+            model_id,
+            base_url=f"{base}/openapi",
+            env_key="MODEL_PROXY_API_KEY",
+            name_prefix="kaggle",
             **kwargs,
         )
     if provider == "local":

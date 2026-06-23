@@ -247,6 +247,7 @@ Pass a model as `--model <provider>:<name>`. Available adapters:
 | `xai-responses:` / `responses:` | xAI Responses API | xAI multi-agent Grok models |
 | `openai:` | `/v1/chat/completions` | OpenAI (`OPENAI_API_KEY`) |
 | `openrouter:` | `/v1/chat/completions` | OpenRouter gateway for open-weight models — Llama, Qwen, Mistral, Gemma (`OPENROUTER_API_KEY`) |
+| `kaggle:` | `/v1/chat/completions` | Kaggle Benchmarks Model Proxy — a hosted OpenAI-compatible gateway (`MODEL_PROXY_*`, provisioned by `kaggle benchmarks auth`) |
 | `local:` | `/v1/chat/completions` | any other OpenAI-compatible server: llama.cpp, vLLM, ollama, LM Studio |
 | `stub:` | none (in-process) | deterministic offline smoke tests |
 
@@ -304,6 +305,40 @@ Then reference any OpenRouter model id (`vendor/model`):
 candor run --model openrouter:meta-llama/llama-3.1-8b-instruct
 candor run --model openrouter:qwen/qwen-2.5-7b-instruct
 ```
+
+### Kaggle Benchmarks Model Proxy
+
+[Kaggle Benchmarks](https://www.kaggle.com/benchmarks) exposes a hosted,
+OpenAI-compatible **Model Proxy**. The Kaggle CLI provisions a short-lived
+credential (≈1 hour) and tells you which models it may call:
+
+```bash
+pip install kaggle
+kaggle benchmarks auth          # writes MODEL_PROXY_URL / MODEL_PROXY_API_KEY / LLMS_AVAILABLE to .env
+```
+
+The `kaggle:` adapter reads those `MODEL_PROXY_*` vars and appends the proxy's
+`/openapi` surface for you, so you reference models by their proxy id
+(`vendor/model`):
+
+```bash
+candor run --model kaggle:anthropic/claude-haiku-4-5@20251001
+candor run --model kaggle:zai/glm-5 --eval calibration --eval sycophancy
+```
+
+To sweep every granted model across all four axes in one shot, refreshing the
+credential per model so a long run can't expire mid-sweep:
+
+```bash
+python scripts/run_kaggle_proxy.py --reauth --output results-kaggle
+```
+
+> **Two tiers.** A locally-provisioned credential can only call the handful of
+> models listed in `LLMS_AVAILABLE`. The full frontier catalog
+> (`kaggle benchmarks tasks models`) is reachable only by authoring a native
+> Kaggle Benchmarks *task* and running it on Kaggle's infrastructure
+> (`kaggle benchmarks tasks push` / `run`) — a different integration than this
+> local sweep.
 
 ## Adding samples
 
