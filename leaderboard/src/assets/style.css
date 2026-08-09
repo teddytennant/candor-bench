@@ -1,149 +1,522 @@
-/* candor-bench leaderboard — strict black & white, no hue.
-   Two grayscale variables flip for dark mode; emphasis is weight + hairline
-   rules only, never colour. */
+/* candor-bench leaderboard.
+   Editorial near-monochrome: serif prose, sans data, booktabs rules.
+   Exactly one hue, --accent, and it is never decorative — it identifies the
+   second model across every mark on the page so its shape can be traced from
+   axis to axis. The full palette is declared on bare :root; the dark block
+   overrides only the colours.
+
+   Layout budget, so the data tables are not starved by the margin notes:
+   body 74rem - 2 x 2.5rem padding = 69rem of content; the axis grid spends
+   14rem of that on the margin note and 2.6rem on the gutter, leaving a 52.4rem
+   data column that the narrow ranking tables fill exactly. The two wide axis
+   tables (calibration, factuality) are uncapped: they take the column and, when
+   their own content needs more, scroll inside .scroll with the rank and model
+   columns pinned. Running prose stays at --measure regardless. */
 
 :root {
-  --ink:   #111111;
-  --paper: #ffffff;
-  --faint: #666666;
-  --rule:  #dddddd;
-  --hover: #f4f4f4;
+  color-scheme: light dark;
+
+  --paper:       #fdfdfb;
+  --ink:         #16181a;
+  --faint:       #5b6066;
+  --rule:        #d9d6cf;
+  --rule-strong: #16181a;
+  --mark-rule:   #8b877e;
+  --hover:       #f1f0ea;
+  --shade:       rgba(22, 24, 26, 0.16); /* scroll-edge cue, decorative only */
+  --accent:      #1a63a0; /* 6.1:1 on --paper; the only hue on the page */
+
+  --serif: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia,
+           "Times New Roman", serif;
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --measure: 68ch;
+
+  /* Sticky-column offsets: the rank cell's own width, so the model column
+     parks flush against it when a wide table scrolls sideways. */
+  --rank-w: 2.2rem;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --ink:   #ececec;
-    --paper: #0c0c0c;
-    --faint: #8c8c8c;
-    --rule:  #2a2a2a;
-    --hover: #181818;
+    --paper:       #0d0e0f;
+    --ink:         #e9e7e2;
+    --faint:       #9b9791;
+    --rule:        #2b2c2e;
+    --rule-strong: #e9e7e2;
+    --mark-rule:   #6a6c6f;
+    --hover:       #17191b;
+    --shade:       rgba(0, 0, 0, 0.6);
+    --accent:      #4f9adb; /* 6.4:1 on --paper, and far enough off --ink to
+                               keep the two series apart at dot size */
   }
 }
 
-* { box-sizing: border-box; }
+/* Per-model mark colour. Set by the series class, read by every SVG element. */
+.s0 { --mark: var(--ink); }
+.s1 { --mark: var(--accent); }
+.sx { --mark: var(--faint); }
 
-html { color-scheme: light dark; }
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  hanging-punctuation: first last;
+  -webkit-text-size-adjust: 100%;
+}
 
 body {
+  max-width: 74rem;
+  margin: 0 auto;
+  padding: clamp(2.25rem, 6vw, 4.5rem) clamp(1.05rem, 4vw, 2.5rem) 3rem;
   background: var(--paper);
   color: var(--ink);
-  font: 16px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-  max-width: 58rem;
-  margin: 0 auto;
-  padding: 4rem 1.5rem 6rem;
+  font: 1rem/1.62 var(--serif);
   -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
 a {
   color: inherit;
   text-decoration: underline;
-  text-underline-offset: 2px;
+  text-decoration-thickness: from-font;
+  text-underline-offset: 0.14em;
 }
 a:hover { text-decoration: none; }
 
-h1 {
-  font-size: 2rem;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  margin: 0 0 0.75rem;
-}
-h2 {
-  font-size: 1.3rem;
-  font-weight: 700;
-  letter-spacing: -0.01em;
-  margin: 0 0 0.25rem;
-}
-h3 {
-  font-size: 1rem;
-  font-weight: 600;
-  margin: 1.4rem 0 0.4rem;
+:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
 }
 
-.standfirst { font-size: 1.05rem; margin: 0 0 1rem; }
-.provenance { color: var(--faint); font-size: 0.85rem; margin: 0; }
-.blurb      { color: var(--faint); margin: 0 0 1rem; }
-.reading    { font-size: 0.9rem; margin: 0.6rem 0 0; }
-.note       { font-size: 0.85rem; color: var(--faint); font-style: italic; margin: 0.4rem 0 0; }
-.n          { color: var(--faint); font-weight: 400; font-size: 0.8rem; }
+.vh {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ---------- type scale ---------- */
+
+h1, h2 {
+  font-family: var(--serif);
+  font-weight: 600;
+}
+
+h1 {
+  font-size: clamp(1.75rem, 1.1rem + 2.4vw, 2.6rem);
+  line-height: 1.08;
+  letter-spacing: -0.022em;
+  margin: 0 0 0.85rem;
+  max-width: 26ch;
+  text-wrap: balance;
+}
+
+h2 {
+  font-size: clamp(1.28rem, 1.12rem + 0.7vw, 1.6rem);
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  margin: 0 0 0.3rem;
+}
+
+p { margin: 0 0 0.9rem; max-width: var(--measure); }
+
+/* ---------- masthead ---------- */
 
 header {
-  border-bottom: 1px solid var(--rule);
-  padding-bottom: 1.5rem;
-  margin-bottom: 0.5rem;
+  padding-bottom: 1.35rem;
+  border-bottom: 2px solid var(--rule-strong);
 }
 
-section.axis { padding: 2rem 0; }
-section.axis + section.axis,
-section.divergence,
-#why-no-overall,
-#caveats {
-  border-top: 1px solid var(--rule);
+/* The product name, demoted above the finding. It is still the <title>. */
+.eyebrow {
+  margin: 0 0 0.85rem;
+  font-family: var(--sans);
+  font-size: 0.73rem;
+  font-weight: 500;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--faint);
 }
-section.divergence,
-#why-no-overall,
-#caveats {
-  padding-top: 2rem;
-  margin-top: 1rem;
+
+.standfirst {
+  font-size: clamp(1.02rem, 0.98rem + 0.3vw, 1.16rem);
+  line-height: 1.5;
+  margin: 0 0 1.15rem;
+  color: var(--faint);
+}
+
+ul.meta {
+  display: flex;
+  flex-wrap: wrap;
+  row-gap: 0.3rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-family: var(--sans);
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+ul.meta li {
+  padding: 0 0.7rem;
+  border-left: 1px solid var(--rule);
+}
+ul.meta li:first-child { padding-left: 0; border-left: 0; }
+
+/* Wrapped rules would leave a stray divider at the start of a line. */
+@media (max-width: 44rem) {
+  ul.meta { column-gap: 1.1rem; }
+  ul.meta li { padding: 0; border-left: 0; }
+}
+
+/* ---------- sections ---------- */
+
+main > section {
+  padding: 2.4rem 0;
+  border-bottom: 1px solid var(--rule);
+}
+main > section:last-child { border-bottom: 0; padding-bottom: 1rem; }
+section[id] { scroll-margin-top: 1.5rem; }
+
+.blurb {
+  color: var(--faint);
+  font-size: 0.98rem;
+  margin: 0 0 0.4rem;
+}
+
+.n {
+  font-family: var(--sans);
+  font-size: 0.72rem;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  color: var(--faint);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.claim {
+  border-left: 2px solid var(--rule-strong);
+  padding-left: 1rem;
+  margin: 1.3rem 0 0;
+  font-size: 1.02rem;
+  line-height: 1.5;
+}
+.aside {
+  margin: 0.75rem 0 0;
+  padding-left: 1rem;
+  border-left: 2px solid var(--rule);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: var(--faint);
+}
+
+/* ---------- tables ---------- */
+
+/* position: relative keeps the absolutely positioned .vh labels inside wide
+   tables from escaping to the page and creating a document-level scrollbar. */
+/* The right-edge shade is the pure-CSS scroll cue: the `local` cover layer
+   travels with the content and hides the `scroll` shadow underneath it once the
+   table is scrolled to that end. No JavaScript, and it is decorative — the
+   sticky label column is what keeps a scrolled row readable. */
+.scroll {
+  position: relative;
+  overflow-x: auto;
+  margin: 1.05rem 0 0;
+  background:
+    linear-gradient(to left, var(--paper) 60%, rgba(0, 0, 0, 0)) right / 2.2rem 100% no-repeat local,
+    radial-gradient(farthest-side at 100% 50%, var(--shade), rgba(0, 0, 0, 0))
+      right / 0.7rem 100% no-repeat scroll;
 }
 
 table {
-  border-collapse: collapse;
   width: 100%;
-  margin: 1rem 0;
-  font-size: 0.95rem;
+  border-collapse: collapse;
+  border-top: 1.5px solid var(--rule-strong);
+  font-family: var(--sans);
+  font-size: 0.86rem;
+  line-height: 1.35;
 }
-.scroll { overflow-x: auto; }
 
-th, td {
-  padding: 0.45rem 0.7rem;
-  border-bottom: 1px solid var(--rule);
+/* The narrow tables fill the data column and stop there. The wide ones are
+   uncapped: they take the column, and overflow into .scroll if they need more
+   than it has. */
+table.summary,
+table.headline,
+table.slices { max-width: 52rem; }
+table.headline.wide { max-width: none; }
+
+caption {
+  caption-side: top;
   text-align: left;
-  white-space: nowrap;
+  padding: 0 0 0.45rem;
+  font-family: var(--sans);
+  font-size: 0.75rem;
+  color: var(--faint);
 }
+
 thead th {
+  padding: 0.5rem 0.7rem;
+  text-align: left;
+  vertical-align: bottom;
+  white-space: nowrap;
   font-weight: 600;
-  border-bottom: 2px solid var(--ink);
+  font-size: 0.71rem;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--faint);
+  border-bottom: 1px solid var(--rule);
 }
+thead th .sub {
+  display: block;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+}
+/* The direction glyph. It never carries meaning alone — an adjacent .vh span
+   spells the direction out for assistive tech. */
+thead th .hint {
+  margin-left: 0.25em;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+tbody th, tbody td {
+  padding: 0.5rem 0.7rem;
+  white-space: nowrap;
+  text-align: left;
+  vertical-align: baseline;
+}
+tbody th {
+  font-weight: 400;
+  color: var(--ink);
+}
+tbody { border-bottom: 1.5px solid var(--rule-strong); }
+tbody tr:hover > * { background: var(--hover); }
+
+th:first-child, td:first-child { padding-left: 0; }
+th:last-child, td:last-child { padding-right: 0; }
+
 .num {
   text-align: right;
-  font-variant-numeric: tabular-nums;
+  font-variant-numeric: tabular-nums lining-nums;
 }
-.rank {
+
+th.rank, td.rank {
+  width: var(--rank-w);
+  min-width: var(--rank-w);
   text-align: right;
   color: var(--faint);
-  width: 2rem;
+  font-variant-numeric: tabular-nums;
 }
-tbody tr:hover { background: var(--hover); }
-tr.rank-1 td { font-weight: 700; }
-tr.rank-1 td.rank { color: var(--ink); }
-tr.nrow td {
-  color: var(--faint);
-  font-size: 0.8rem;
-  border-bottom: none;
-}
+tr.lead td.rank { color: var(--ink); }
+tr.lead > th, tr.lead td.score, td.num.lead { font-weight: 600; }
 
-details.breakdown { margin: 0.75rem 0; }
-details.breakdown > summary {
-  cursor: pointer;
-  color: var(--faint);
-  font-size: 0.9rem;
-  user-select: none;
-  padding: 0.25rem 0;
-}
-details.breakdown[open] > summary,
-details.breakdown > summary:hover { color: var(--ink); }
+td.gap, td.delta { color: var(--faint); }
+td.delta.ref { font-variant-numeric: normal; letter-spacing: 0.04em; }
 
-ul { padding-left: 1.1rem; }
-li { margin: 0.4rem 0; }
-code {
-  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-  font-size: 0.85em;
-}
-
-footer {
-  margin-top: 3rem;
-  padding-top: 1.5rem;
+tr.nrow > *, tr.grow > * {
   border-top: 1px solid var(--rule);
   color: var(--faint);
-  font-size: 0.85rem;
+  font-size: 0.78rem;
+}
+tr.grow > * { border-top-style: dotted; }
+
+td.bar, th.bar { width: 1%; padding-right: 0.4rem; }
+
+th.plot, td.plot { width: 150px; min-width: 150px; }
+th.plot .hi { float: right; }
+
+/* Pin the identifying columns so a sideways-scrolled row is still readable —
+   which model, and which rank, are exactly the facts a horizontal scroll would
+   otherwise cut off. A no-op when the table fits. */
+.scroll th.rank,
+.scroll td.rank,
+.scroll th.model,
+.scroll tbody th[scope="row"] {
+  position: sticky;
+  background: var(--paper);
+}
+.scroll th.rank,
+.scroll td.rank { left: 0; z-index: 1; }
+.scroll table.headline th.model,
+.scroll table.headline tbody th[scope="row"] { left: var(--rank-w); }
+.scroll table:not(.headline) th.model,
+.scroll table:not(.headline) tbody th[scope="row"],
+.scroll table.summary thead th:first-child { left: 0; }
+.scroll th.model,
+.scroll tbody th[scope="row"] {
+  z-index: 1;
+  /* Hairline seam plus a soft drop, so a half-scrolled neighbouring column
+     reads as passing underneath rather than as a broken cell. */
+  box-shadow: 1px 0 0 var(--rule), 7px 0 7px -5px var(--shade);
+}
+.scroll thead th { z-index: 2; }
+.scroll tbody tr:hover th[scope="row"],
+.scroll tbody tr:hover td.rank { background: var(--hover); }
+
+/* ---------- inline SVG marks ---------- */
+
+svg.spark, svg.dots { display: block; overflow: visible; }
+svg.spark .track,
+svg.dots .rule { stroke: var(--mark-rule); stroke-width: 1; }
+svg.dots .tick { stroke: var(--mark-rule); stroke-width: 1; }
+svg.dots .spread { stroke: var(--faint); stroke-width: 1; }
+svg.spark .fill { fill: var(--mark, var(--ink)); }
+svg.dots .dot { fill: var(--mark, var(--ink)); }
+
+svg.slope {
+  display: block;
+  width: 100%;
+  max-width: 30rem;
+  height: auto;
+  font-family: var(--sans);
+}
+svg.slope .pole { stroke: var(--mark-rule); stroke-width: 1; }
+svg.slope .line { fill: none; stroke: var(--mark, var(--ink)); stroke-width: 1.8; }
+svg.slope .dot { fill: var(--mark, var(--ink)); }
+svg.slope .val {
+  fill: var(--mark, var(--ink));
+  font-size: 10px;
+  font-variant-numeric: tabular-nums;
+}
+svg.slope .scale { fill: var(--faint); font-size: 9px; }
+svg.slope .col { fill: var(--ink); font-size: 10px; text-anchor: middle; }
+svg.slope .col.sub { fill: var(--faint); font-size: 9px; }
+
+ul.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.15rem 1.2rem;
+  margin: 0.6rem 0 0;
+  padding: 0;
+  list-style: none;
+  font-family: var(--sans);
+  font-size: 0.775rem;
+  color: var(--faint);
+}
+ul.legend .key { display: inline-flex; align-items: center; gap: 0.4rem; }
+ul.legend .key::before {
+  content: "";
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: 50%;
+  background: var(--mark, var(--ink));
+}
+
+figure { margin: 1.1rem 0 0; }
+figcaption {
+  margin-top: 0.6rem;
+  max-width: 30rem;
+  font-family: var(--sans);
+  font-size: 0.775rem;
+  line-height: 1.45;
+  color: var(--faint);
+}
+
+/* ---------- axis body: table with a margin note ---------- */
+
+.axis-body { display: grid; grid-template-columns: minmax(0, 1fr); }
+
+.sidenote {
+  margin: 1.1rem 0 0;
+  padding-left: 0.85rem;
+  border-left: 2px solid var(--rule);
+  font-family: var(--sans);
+  font-size: 0.83rem;
+  line-height: 1.5;
+  color: var(--faint);
+}
+.sidenote p { margin: 0 0 0.5rem; max-width: none; }
+.sidenote p:last-child { margin-bottom: 0; }
+
+/* ---------- collapsible per-kind detail ---------- */
+
+details.breakdown { margin-top: 1.1rem; border-top: 1px solid var(--rule); }
+details.breakdown > summary {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 0;
+  cursor: pointer;
+  list-style: none;
+  font-family: var(--sans);
+  font-size: 0.73rem;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+details.breakdown > summary::marker { content: ""; }
+details.breakdown > summary::-webkit-details-marker { display: none; }
+details.breakdown > summary::before {
+  content: "+";
+  font-size: 0.95rem;
+  line-height: 1;
+}
+details.breakdown[open] > summary::before { content: "\2212"; }
+details.breakdown > summary:hover,
+details.breakdown[open] > summary { color: var(--ink); }
+details.breakdown .scroll { margin-top: 0; padding-bottom: 0.4rem; }
+
+/* ---------- caveats ---------- */
+
+ul.caveats {
+  display: grid;
+  gap: 1rem 2.2rem;
+  margin: 1.2rem 0 0;
+  padding: 0;
+  list-style: none;
+  max-width: var(--measure);
+  font-size: 0.94rem;
+  line-height: 1.5;
+}
+ul.caveats li {
+  padding-left: 0.95rem;
+  border-left: 1px solid var(--rule);
+}
+ul.caveats strong { font-weight: 700; }
+
+/* ---------- footer ---------- */
+
+footer {
+  margin-top: 2.2rem;
+  padding-top: 1.1rem;
+  border-top: 1px solid var(--rule);
+  font-family: var(--sans);
+  font-size: 0.775rem;
+  color: var(--faint);
+}
+
+/* ---------- wide viewports: margin notes and side-by-side divergence ---------- */
+
+@media (min-width: 62rem) {
+  .axis-body {
+    grid-template-columns: minmax(0, 1fr) 14rem;
+    column-gap: 2.6rem;
+  }
+  .sidenote {
+    margin-top: 1.5rem;
+    padding-left: 0;
+    padding-top: 0.55rem;
+    border-left: 0;
+    border-top: 1px solid var(--rule);
+    align-self: start;
+  }
+  /* An even split: the chart gets the full measure it needs at its 30rem cap,
+     and the slice table gets enough that its long kind headers are not cut in
+     half. Anything narrower on the right clipped `escalating_pressure`. */
+  .divergence-body {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    column-gap: 2.6rem;
+    align-items: start;
+  }
+  .divergence-body figure { margin-top: 1.05rem; }
+  ul.caveats {
+    grid-template-columns: 1fr 1fr;
+    max-width: none;
+  }
 }
